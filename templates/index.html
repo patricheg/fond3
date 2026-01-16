@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Благотворительный фонд{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Благотворительный местный фонд помощи спортсменам</h1>
+            <p>Вместе мы можем изменить жизни людей к лучшему</p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('fundraisers') }}" class="btn btn-primary">Поддержать сбор</a>
+                <a href="{{ url_for('tournaments') }}" class="btn btn-secondary">Наши турниры</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3>Активных сборов</h3>
+                <p class="stat-number">{{ fundraisers|length }}</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-trophy"></i>
+                <h3>Турниров проведено</h3>
+                <p class="stat-number">{{ tournaments|length }}</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>Спортсменов поддержано</h3>
+                <p class="stat-number">150+</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if fundraisers %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Активные сборы</h2>
+        <div class="cards-grid">
+            {% for fundraiser in fundraisers %}
+            <div class="card">
+                {% set images = fundraiser.get_images() %}
+                {% if images %}
+                    {% if images|length > 1 %}
+                    <div class="card-image-slider">
+                        {% for image_url in images %}
+                        <img src="{{ image_url }}" alt="{{ fundraiser.title }}" class="card-image slider-image" data-slider-index="{{ loop.index0 }}">
+                        {% endfor %}
+                        <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            {% for image_url in images %}
+                            <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <img src="{{ images[0] }}" alt="{{ fundraiser.title }}" class="card-image">
+                    {% endif %}
+                {% else %}
+                <div class="card-image-placeholder">
+                    <i class="fas fa-running"></i>
+                </div>
+                {% endif %}
+                <div class="card-content">
+                    <h3>{{ fundraiser.title }}</h3>
+                    <p class="card-athlete">{{ fundraiser.athlete_name }}</p>
+                    <p class="card-description">{{ fundraiser.description[:150] }}...</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ fundraiser.progress_percentage() }}%"></div>
+                    </div>
+                    <div class="card-stats">
+                        <span>Собрано: {{ "{:,.0f}".format(fundraiser.current_amount) }} Br</span>
+                        <span>Цель: {{ "{:,.0f}".format(fundraiser.goal_amount) }} Br</span>
+                    </div>
+                    <a href="{{ url_for('fundraiser_detail', id=fundraiser.id) }}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="section-footer">
+            <a href="{{ url_for('fundraisers') }}" class="btn btn-outline">Все сборы</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if tournaments %}
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Предстоящие турниры</h2>
+        <div class="cards-grid">
+            {% for tournament in tournaments %}
+            <div class="card">
+                {% set images = tournament.get_images() %}
+                {% if images %}
+                    {% if images|length > 1 %}
+                    <div class="card-image-slider">
+                        {% for image_url in images %}
+                        <img src="{{ image_url }}" alt="{{ tournament.title }}" class="card-image slider-image" data-slider-index="{{ loop.index0 }}">
+                        {% endfor %}
+                        <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            {% for image_url in images %}
+                            <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <img src="{{ images[0] }}" alt="{{ tournament.title }}" class="card-image">
+                    {% endif %}
+                {% else %}
+                <div class="card-image-placeholder">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                {% endif %}
+                <div class="card-content">
+                    <h3>{{ tournament.title }}</h3>
+                    <p class="card-meta">
+                        <i class="fas fa-calendar"></i> {{ tournament.date.strftime('%d.%m.%Y %H:%M') }}
+                    </p>
+                    {% if tournament.location %}
+                    <p class="card-meta">
+                        <i class="fas fa-map-marker-alt"></i> {{ tournament.location }}
+                    </p>
+                    {% endif %}
+                    <p class="card-description">{{ tournament.description[:120] }}...</p>
+                    {% if tournament.registration_url %}
+                    <a href="{{ tournament.registration_url }}" class="btn btn-primary" target="_blank">Регистрация</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="section-footer">
+            <a href="{{ url_for('tournaments') }}" class="btn btn-outline">Все турниры</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if news %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Последние новости</h2>
+        <div class="cards-grid">
+            {% for item in news %}
+            <div class="card">
+                {% set images = item.get_images() %}
+                {% if images %}
+                    {% if images|length > 1 %}
+                    <div class="card-image-slider">
+                        {% for image_url in images %}
+                        <img src="{{ image_url }}" alt="{{ item.title }}" class="card-image slider-image" data-slider-index="{{ loop.index0 }}">
+                        {% endfor %}
+                        <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            {% for image_url in images %}
+                            <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <img src="{{ images[0] }}" alt="{{ item.title }}" class="card-image">
+                    {% endif %}
+                {% else %}
+                <div class="card-image-placeholder">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                {% endif %}
+                <div class="card-content">
+                    <p class="card-date">{{ item.created_at.strftime('%d.%m.%Y') }}</p>
+                    <h3>{{ item.title }}</h3>
+                    <p class="card-description">{{ item.summary or item.content[:150] }}...</p>
+                    <a href="{{ url_for('news_detail', id=item.id) }}" class="btn btn-outline">Читать далее</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="section-footer">
+            <a href="{{ url_for('news') }}" class="btn btn-outline">Все новости</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

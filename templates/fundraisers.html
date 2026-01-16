@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Сборы - Благотворительный фонд{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Благотворительные сборы</h1>
+        <p>Помогите спортсменам осуществить их мечты</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        {% if fundraisers %}
+        <div class="cards-grid">
+            {% for fundraiser in fundraisers %}
+            <div class="card">
+                {% set images = fundraiser.get_images() %}
+                {% if images %}
+                    {% if images|length > 1 %}
+                    <div class="card-image-slider">
+                        {% for image_url in images %}
+                        <img src="{{ image_url }}" alt="{{ fundraiser.title }}" class="card-image slider-image" data-slider-index="{{ loop.index0 }}">
+                        {% endfor %}
+                        <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            {% for image_url in images %}
+                            <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <img src="{{ images[0] }}" alt="{{ fundraiser.title }}" class="card-image">
+                    {% endif %}
+                {% else %}
+                <div class="card-image-placeholder">
+                    <i class="fas fa-running"></i>
+                </div>
+                {% endif %}
+                <div class="card-content">
+                    <h3>{{ fundraiser.title }}</h3>
+                    <p class="card-athlete">{{ fundraiser.athlete_name }}</p>
+                    <p class="card-description">{{ fundraiser.description[:200] }}...</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ fundraiser.progress_percentage() }}%"></div>
+                    </div>
+                    <div class="card-stats">
+                        <div>
+                            <span class="stat-label">Собрано:</span>
+                            <span class="stat-value">{{ "{:,.0f}".format(fundraiser.current_amount) }} Br</span>
+                        </div>
+                        <div>
+                            <span class="stat-label">Цель:</span>
+                            <span class="stat-value">{{ "{:,.0f}".format(fundraiser.goal_amount) }} Br</span>
+                        </div>
+                    </div>
+                    <div class="progress-percentage">{{ "%.0f"|format(fundraiser.progress_percentage()) }}% собрано</div>
+                    <a href="{{ url_for('fundraiser_detail', id=fundraiser.id) }}" class="btn btn-primary">Поддержать</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <p>На данный момент нет активных сборов</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

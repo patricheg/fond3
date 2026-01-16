@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ 'Редактировать' if news else 'Добавить' }} новость - Админ{% endblock %}
+
+{% block page_title %}{{ 'Редактировать' if news else 'Добавить' }} новость{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form method="POST" enctype="multipart/form-data" class="admin-form">
+        <div class="form-group">
+            <label for="title">Заголовок *</label>
+            <input type="text" id="title" name="title" class="form-control" required 
+                   value="{{ news.title if news else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="summary">Краткое описание</label>
+            <input type="text" id="summary" name="summary" class="form-control" 
+                   maxlength="300"
+                   placeholder="Краткое описание для превью (необязательно)"
+                   value="{{ news.summary if news else '' }}">
+            <small class="form-text">Максимум 300 символов</small>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Содержание *</label>
+            <textarea id="content" name="content" class="form-control" rows="15" required>{{ news.content if news else '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="image_files">Загрузить изображения</label>
+            <input type="file" id="image_files" name="image_files" class="form-control" 
+                   accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
+                   multiple
+                   onchange="previewMultipleImages(event, 'images-preview-container-news')">
+            <small class="form-text">PNG, JPG, GIF или WEBP, максимум 5 МБ каждое. Можно выбрать несколько файлов</small>
+            
+            {% if news and news.get_images() %}
+            <div class="current-images">
+                <p class="form-text" style="margin-top: 1rem;">Текущие изображения:</p>
+                <div class="images-grid">
+                    {% for image_url in news.get_images() %}
+                    <div class="image-item">
+                        <img src="{{ image_url }}" alt="Image" class="image-preview-thumb">
+                        <label class="delete-image-label">
+                            <input type="checkbox" name="keep_images" value="{{ image_url }}" checked>
+                            <span>Сохранить</span>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <div id="images-preview-container-news" class="images-preview-container" style="margin-top: 1rem;"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="image_url">Или укажите URL изображения</label>
+            <input type="url" id="image_url" name="image_url" class="form-control" 
+                   placeholder="https://example.com/image.jpg">
+            <small class="form-text">Если загрузите файлы, URL будет проигнорирован</small>
+        </div>
+
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="is_published" {{ 'checked' if not news or news.is_published else '' }}>
+                <span>Опубликована (видна на сайте)</span>
+            </label>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Сохранить
+            </button>
+            <a href="{{ url_for('admin_news') }}" class="btn btn-outline">
+                <i class="fas fa-times"></i> Отмена
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Наши люди - Благотворительный фонд{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Наши люди</h1>
+        <p>Люди и организации, которые делают нашу работу возможной</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        {% if people %}
+        <div class="people-grid">
+            {% for person in people %}
+            <div class="person-card">
+                <div class="person-photo">
+                    {% if person.photo_url %}
+                    <img src="{{ person.photo_url }}" alt="{{ person.name }}">
+                    {% else %}
+                    <div class="person-photo-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="person-info">
+                    <h3>{{ person.name }}</h3>
+                    {% if person.role %}
+                    <p class="person-role">{{ person.role }}</p>
+                    {% endif %}
+                    <p class="person-description">{{ person.description }}</p>
+                    {% if person.contact_info %}
+                    <p class="person-contact">
+                        <i class="fas fa-envelope"></i> {{ person.contact_info }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <p>Скоро здесь появится информация о наших людях и партнерах</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

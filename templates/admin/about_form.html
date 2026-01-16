@@ -1,0 +1,102 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Редактировать страницу "О нас" - Админ{% endblock %}
+
+{% block page_title %}Редактировать страницу "О нас"{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form method="POST" action="{{ url_for('admin_edit_about') }}" enctype="multipart/form-data" class="admin-form">
+        <div class="form-group">
+            <label for="title">Заголовок страницы *</label>
+            <input type="text" id="title" name="title" class="form-control" required 
+                   value="{{ about.title if about else 'О нас' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="content">Основной текст *</label>
+            <textarea id="content" name="content" class="form-control" rows="10" required>{{ about.content if about else '' }}</textarea>
+            <small class="form-text">Основная информация о вашем фонде</small>
+        </div>
+
+        <div class="form-group">
+            <label for="mission">Наша миссия</label>
+            <textarea id="mission" name="mission" class="form-control" rows="6">{{ about.mission if about else '' }}</textarea>
+            <small class="form-text">Опишите миссию вашей организации</small>
+        </div>
+
+        <div class="form-group">
+            <label for="vision">Наше видение</label>
+            <textarea id="vision" name="vision" class="form-control" rows="6">{{ about.vision if about else '' }}</textarea>
+            <small class="form-text">Опишите видение вашей организации</small>
+        </div>
+
+        <div class="form-group">
+            <label for="images">Загрузить изображения (документы, фотографии)</label>
+            <input type="file" id="images" name="images" class="form-control" 
+                   accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
+                   multiple
+                   onchange="previewMultipleImages(event, 'images-preview-container-about')">
+            <small class="form-text">PNG, JPG, GIF или WEBP, максимум 5 МБ каждое. Можно выбрать несколько файлов</small>
+            
+            {% if about and about.get_images() %}
+            <div class="current-images">
+                <p class="form-text" style="margin-top: 1rem;">Текущие изображения:</p>
+                <div class="images-grid">
+                    {% for image_url in about.get_images() %}
+                    <div class="image-item" data-image-url="{{ image_url }}">
+                        <img src="{{ image_url }}" alt="Image" class="image-preview-thumb">
+                        <button type="button" class="btn-delete-image" onclick="deleteAboutImage('{{ image_url }}', this)">
+                            <i class="fas fa-trash"></i> Удалить
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <div id="images-preview-container-about" class="images-preview-container" style="margin-top: 1rem;"></div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Сохранить изменения
+            </button>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline">
+                <i class="fas fa-times"></i> Отмена
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+function deleteAboutImage(imageUrl, button) {
+    if (!confirm('Удалить это изображение?')) {
+        return;
+    }
+    
+    fetch("{{ url_for('admin_about_delete_image') }}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ image_url: imageUrl })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Удаляем элемент из DOM
+            const imageItem = button.closest('.image-item');
+            imageItem.remove();
+            alert('Изображение удалено');
+        } else {
+            alert('Ошибка при удалении изображения');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Ошибка при удалении изображения');
+    });
+}
+</script>
+{% endblock %}

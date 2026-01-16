@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ news.title }} - Новости{% endblock %}
+
+{% block content %}
+<section class="detail-page">
+    <div class="container">
+        <article class="article">
+            <div class="article-header">
+                <p class="article-date">{{ news.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+                <h1>{{ news.title }}</h1>
+            </div>
+            
+            {% set images = news.get_images() %}
+            {% if images %}
+                {% if images|length > 1 %}
+                <div class="detail-image-slider">
+                    {% for image_url in images %}
+                    <img src="{{ image_url }}" alt="{{ news.title }}" class="detail-image slider-image" data-slider-index="{{ loop.index0 }}">
+                    {% endfor %}
+                    <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
+                    <div class="slider-dots">
+                        {% for image_url in images %}
+                        <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <img src="{{ images[0] }}" alt="{{ news.title }}" class="article-image">
+                {% endif %}
+            {% endif %}
+            
+            <div class="article-content">
+                <p style="white-space: pre-line;">{{ news.content }}</p>
+            </div>
+            
+            <div class="article-footer">
+                <a href="{{ url_for('news') }}" class="btn btn-outline">← Назад к новостям</a>
+                <div class="share-section">
+                    <span>Поделиться:</span>
+                    <a href="#" class="share-btn"><i class="fab fa-vk"></i></a>
+                    <a href="#" class="share-btn"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="share-btn"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}

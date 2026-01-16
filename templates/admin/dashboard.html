@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Панель управления - Админ{% endblock %}
+
+{% block page_title %}Панель управления{% endblock %}
+
+{% block content %}
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <div class="stat-icon" style="background: #4CAF50;">
+            <i class="fas fa-hand-holding-heart"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{ fundraisers_count }}</h3>
+            <p>Сборов</p>
+        </div>
+        <a href="{{ url_for('admin_fundraisers') }}" class="stat-link">
+            Управление <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon" style="background: #2196F3;">
+            <i class="fas fa-newspaper"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{ news_count }}</h3>
+            <p>Новостей</p>
+        </div>
+        <a href="{{ url_for('admin_news') }}" class="stat-link">
+            Управление <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon" style="background: #FF9800;">
+            <i class="fas fa-trophy"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{ tournaments_count }}</h3>
+            <p>Турниров</p>
+        </div>
+        <a href="{{ url_for('admin_tournaments') }}" class="stat-link">
+            Управление <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+</div>
+
+<div class="dashboard-actions">
+    <h2>Быстрые действия</h2>
+    <div class="action-buttons">
+        <a href="{{ url_for('admin_add_fundraiser') }}" class="action-btn">
+            <i class="fas fa-plus-circle"></i>
+            <span>Добавить сбор</span>
+        </a>
+        <a href="{{ url_for('admin_add_news') }}" class="action-btn">
+            <i class="fas fa-plus-circle"></i>
+            <span>Добавить новость</span>
+        </a>
+        <a href="{{ url_for('admin_add_tournament') }}" class="action-btn">
+            <i class="fas fa-plus-circle"></i>
+            <span>Добавить турнир</span>
+        </a>
+        <a href="{{ url_for('index') }}" class="action-btn" target="_blank">
+            <i class="fas fa-eye"></i>
+            <span>Просмотр сайта</span>
+        </a>
+    </div>
+</div>
+
+<div class="dashboard-info">
+    <div class="info-card">
+        <h3><i class="fas fa-info-circle"></i> Добро пожаловать!</h3>
+        <p>Вы вошли в систему управления сайтом благотворительного фонда. Здесь вы можете управлять сборами, новостями и турнирами.</p>
+        <ul>
+            <li>Создавайте и редактируйте благотворительные сборы</li>
+            <li>Публикуйте новости о достижениях и событиях</li>
+            <li>Организуйте турниры и мероприятия</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

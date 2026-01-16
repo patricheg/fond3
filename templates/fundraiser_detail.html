@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}{{ fundraiser.title }} - Сборы{% endblock %}
+
+{% block content %}
+<section class="detail-page">
+    <div class="container">
+        <div class="detail-grid">
+            <div class="detail-main">
+                {% set images = fundraiser.get_images() %}
+                {% if images %}
+                    {% if images|length > 1 %}
+                    <div class="detail-image-slider">
+                        {% for image_url in images %}
+                        <img src="{{ image_url }}" alt="{{ fundraiser.title }}" class="detail-image slider-image" data-slider-index="{{ loop.index0 }}">
+                        {% endfor %}
+                        <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            {% for image_url in images %}
+                            <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <img src="{{ images[0] }}" alt="{{ fundraiser.title }}" class="detail-image">
+                    {% endif %}
+                {% else %}
+                <div class="detail-image-placeholder">
+                    <i class="fas fa-running"></i>
+                </div>
+                {% endif %}
+                
+                <h1>{{ fundraiser.title }}</h1>
+                
+                <div class="detail-meta">
+                    <span><i class="fas fa-user"></i> {{ fundraiser.athlete_name }}</span>
+                    <span><i class="fas fa-calendar"></i> {{ fundraiser.created_at.strftime('%d.%m.%Y') }}</span>
+                </div>
+                
+                <div class="detail-content">
+                    <p style="white-space: pre-line;">{{ fundraiser.description }}</p>
+                </div>
+            </div>
+            
+            <div class="detail-sidebar">
+                <div class="sidebar-card">
+                    <h3>Прогресс сбора</h3>
+                    <div class="progress-bar large">
+                        <div class="progress-fill" style="width: {{ fundraiser.progress_percentage() }}%"></div>
+                    </div>
+                    <div class="progress-percentage large">{{ "%.0f"|format(fundraiser.progress_percentage()) }}%</div>
+                    
+                    <div class="funding-stats">
+                        <div class="funding-stat">
+                            <span class="funding-label">Собрано</span>
+                            <span class="funding-value">{{ "{:,.0f}".format(fundraiser.current_amount) }} Br</span>
+                        </div>
+                        <div class="funding-stat">
+                            <span class="funding-label">Цель</span>
+                            <span class="funding-value">{{ "{:,.0f}".format(fundraiser.goal_amount) }} Br</span>
+                        </div>
+                        <div class="funding-stat">
+                            <span class="funding-label">Осталось</span>
+                            <span class="funding-value">{{ "{:,.0f}".format(fundraiser.goal_amount - fundraiser.current_amount) }} Br</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-block" onclick="openContactModal()">Помочь сейчас</button>
+                    
+                    <div class="share-section">
+                        <p>Поделиться:</p>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn"><i class="fab fa-vk"></i></a>
+                            <a href="#" class="share-btn"><i class="fab fa-telegram"></i></a>
+                            <a href="#" class="share-btn"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Модальное окно с контактами -->
+<div id="contactModal" class="contact-modal" onclick="closeContactModal(event)">
+    <div class="contact-modal-content" onclick="event.stopPropagation()">
+        <span class="contact-modal-close" onclick="closeContactModal(event)">&times;</span>
+        <h2><i class="fas fa-hand-holding-heart"></i> Как помочь</h2>
+        <p class="contact-modal-description">Свяжитесь с нами любым удобным способом, и мы расскажем, как вы можете поддержать этот сбор:</p>
+        
+        {% if contact_info %}
+        <div class="contact-methods">
+            {% if contact_info.phone %}
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <div class="contact-info-text">
+                    <strong>Телефон:</strong>
+                    <a href="tel:{{ contact_info.phone }}">{{ contact_info.phone }}</a>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if contact_info.email %}
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <div class="contact-info-text">
+                    <strong>Email:</strong>
+                    <a href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if contact_info.telegram %}
+            <div class="contact-item">
+                <i class="fab fa-telegram"></i>
+                <div class="contact-info-text">
+                    <strong>Telegram:</strong>
+                    <a href="https://t.me/{{ contact_info.telegram }}" target="_blank">{{ contact_info.telegram }}</a>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if contact_info.viber %}
+            <div class="contact-item">
+                <i class="fab fa-viber"></i>
+                <div class="contact-info-text">
+                    <strong>Viber:</strong>
+                    <a href="viber://chat?number={{ contact_info.viber }}">{{ contact_info.viber }}</a>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if contact_info.whatsapp %}
+            <div class="contact-item">
+                <i class="fab fa-whatsapp"></i>
+                <div class="contact-info-text">
+                    <strong>WhatsApp:</strong>
+                    <a href="https://wa.me/{{ contact_info.whatsapp }}" target="_blank">{{ contact_info.whatsapp }}</a>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if contact_info.vk %}
+            <div class="contact-item">
+                <i class="fab fa-vk"></i>
+                <div class="contact-info-text">
+                    <strong>ВКонтакте:</strong>
+                    <a href="{{ contact_info.vk }}" target="_blank">Наша группа</a>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if contact_info.instagram %}
+            <div class="contact-item">
+                <i class="fab fa-instagram"></i>
+                <div class="contact-info-text">
+                    <strong>Instagram:</strong>
+                    <a href="{{ contact_info.instagram }}" target="_blank">{{ contact_info.instagram }}</a>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if contact_info.additional_info %}
+            <div class="contact-item full-width">
+                <i class="fas fa-info-circle"></i>
+                <div class="contact-info-text">
+                    <strong>Дополнительная информация:</strong>
+                    <p>{{ contact_info.additional_info }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <p class="no-contacts">Контактная информация временно недоступна. Попробуйте позже.</p>
+        {% endif %}
+        
+        <button class="btn btn-outline btn-block" onclick="closeContactModal(event)">Закрыть</button>
+    </div>
+</div>
+
+<script>
+function openContactModal() {
+    const modal = document.getElementById('contactModal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeContactModal(event) {
+    event.stopPropagation();
+    const modal = document.getElementById('contactModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Закрытие по ESC
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeContactModal(event);
+    }
+});
+</script>
+{% endblock %}
