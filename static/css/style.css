@@ -220,6 +220,16 @@ body {
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
 }
 
+.card-title-link {
+    color: var(--dark-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.card-title-link:hover {
+    color: var(--primary-color);
+}
+
 .card-image {
     width: 100%;
     height: 200px;
@@ -542,9 +552,8 @@ body {
     padding: 2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    position: sticky;
-    top: 100px;
 }
+
 
 .sidebar-card h3 {
     margin-bottom: 1rem;
@@ -608,6 +617,185 @@ body {
 .share-btn:hover {
     transform: scale(1.1);
     background: var(--secondary-color);
+}
+
+/* ======================
+   ДЕТАЛЬНАЯ СТРАНИЦА ТУРНИРА
+   ====================== */
+
+.tournament-info-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+.tournament-info-card h3 {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tournament-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.tournament-detail-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.tournament-detail-item i {
+    font-size: 1.5rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+.tournament-detail-item > div {
+    flex: 1;
+}
+
+.tournament-detail-item strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.tournament-detail-item p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.places-badge {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.places-badge.available {
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.places-badge.full {
+    background: rgba(231, 76, 60, 0.3);
+    color: #fff;
+}
+
+.tournament-info-card .btn-block {
+    margin-top: 2rem;
+}
+
+.tournament-info-card .share-section {
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.tournament-info-card .share-section p {
+    color: #fff;
+    opacity: 0.9;
+}
+
+.tournament-info-card .share-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.tournament-info-card .share-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Форма регистрации на странице турнира */
+.registration-form-card {
+    margin-top: 2rem;
+}
+
+.registration-form-card h3 {
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tournament-registration-form .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.tournament-registration-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+    font-size: 0.95rem;
+}
+
+.tournament-registration-form .required {
+    color: var(--danger-color);
+}
+
+.tournament-registration-form input,
+.tournament-registration-form textarea,
+.tournament-registration-form select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.tournament-registration-form input:focus,
+.tournament-registration-form textarea:focus,
+.tournament-registration-form select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+}
+
+.tournament-registration-form textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.tournament-registration-form .btn-block {
+    margin-top: 1.5rem;
+}
+
+/* Карточка "Регистрация закрыта" */
+.registration-closed-card {
+    margin-top: 2rem;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.closed-message {
+    padding: 1rem;
+}
+
+.closed-message i {
+    font-size: 3rem;
+    color: #999;
+    margin-bottom: 1rem;
+}
+
+.closed-message h4 {
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.closed-message p {
+    color: #666;
+    margin: 0;
 }
 
 /* ======================

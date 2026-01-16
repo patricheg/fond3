@@ -130,6 +130,28 @@ def tournaments():
     return render_template('tournaments.html', tournaments=all_tournaments)
 
 
+@app.route('/tournament/<int:id>')
+def tournament_detail(id):
+    """Детальная страница турнира"""
+    tournament = Tournament.query.get_or_404(id)
+    
+    # Подсчет количества подтвержденных регистраций
+    confirmed_count = TournamentRegistration.query.filter_by(
+        tournament_id=id,
+        status='confirmed'
+    ).count()
+    
+    # Проверяем, есть ли свободные места
+    places_available = True
+    if tournament.participants_limit:
+        places_available = confirmed_count < tournament.participants_limit
+    
+    return render_template('tournament_detail.html', 
+                         tournament=tournament, 
+                         confirmed_count=confirmed_count,
+                         places_available=places_available)
+
+
 @app.route('/tournament/<int:id>/register', methods=['POST'])
 def register_tournament(id):
     """Регистрация на турнир"""
@@ -156,6 +178,7 @@ def register_tournament(id):
         phone=request.form.get('phone'),
         email=request.form.get('email'),
         age=request.form.get('age'),
+        weight=request.form.get('weight'),
         sport_category=request.form.get('sport_category'),
         disability_info=request.form.get('disability_info'),
         additional_info=request.form.get('additional_info'),
@@ -170,7 +193,7 @@ def register_tournament(id):
         db.session.rollback()
         flash('Произошла ошибка при регистрации. Попробуйте еще раз.', 'error')
     
-    return redirect(url_for('tournaments'))
+    return redirect(url_for('tournament_detail', id=id))
 
 
 @app.route('/about')

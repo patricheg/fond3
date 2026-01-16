@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tournament.title }} - Турниры{% endblock %}
+
+{% block content %}
+<section class="detail-page">
+    <div class="container">
+        <div class="detail-grid">
+            <div class="detail-main">
+                {% set images = tournament.get_images() %}
+                {% if images %}
+                    {% if images|length > 1 %}
+                    <div class="detail-image-slider">
+                        {% for image_url in images %}
+                        <img src="{{ image_url }}" alt="{{ tournament.title }}" class="detail-image slider-image" data-slider-index="{{ loop.index0 }}">
+                        {% endfor %}
+                        <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            {% for image_url in images %}
+                            <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <img src="{{ images[0] }}" alt="{{ tournament.title }}" class="detail-image">
+                    {% endif %}
+                {% else %}
+                <div class="detail-image-placeholder">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                {% endif %}
+                
+                <h1>{{ tournament.title }}</h1>
+                
+                <div class="detail-meta">
+                    <span><i class="fas fa-calendar"></i> {{ tournament.date.strftime('%d.%m.%Y') }}</span>
+                    <span><i class="fas fa-clock"></i> {{ tournament.date.strftime('%H:%M') }}</span>
+                    {% if tournament.location %}
+                    <span><i class="fas fa-map-marker-alt"></i> {{ tournament.location }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="detail-content">
+                    <p style="white-space: pre-line;">{{ tournament.description }}</p>
+                </div>
+            </div>
+            
+            <div class="detail-sidebar">
+                <!-- Форма регистрации -->
+                {% if tournament.is_active and places_available %}
+                <div class="sidebar-card registration-form-card">
+                    <h3><i class="fas fa-user-plus"></i> Регистрация на турнир</h3>
+                    
+                    <form method="POST" action="{{ url_for('register_tournament', id=tournament.id) }}" class="tournament-registration-form">
+                        <div class="form-group">
+                            <label for="full_name">ФИО участника <span class="required">*</span></label>
+                            <input type="text" id="full_name" name="full_name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" placeholder="+375 XX XXX-XX-XX" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="age">Возраст</label>
+                            <input type="number" id="age" name="age" min="1" max="120" placeholder="Лет">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="weight">Вес</label>
+                            <input type="number" id="weight" name="weight" min="1" max="300" step="0.1" placeholder="кг">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sport_category">Спортивная категория/разряд</label>
+                            <input type="text" id="sport_category" name="sport_category" placeholder="КМС, МС и т.д.">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="disability_info">Информация об ограничениях здоровья</label>
+                            <textarea id="disability_info" name="disability_info" rows="2" placeholder="Укажите, если есть особенности"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="additional_info">Дополнительная информация</label>
+                            <textarea id="additional_info" name="additional_info" rows="2" placeholder="Комментарии или вопросы"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-check"></i> Отправить заявку
+                        </button>
+                    </form>
+                </div>
+                {% elif not places_available %}
+                <div class="sidebar-card registration-closed-card">
+                    <div class="closed-message">
+                        <i class="fas fa-ban"></i>
+                        <h4>Все места заняты</h4>
+                        <p>К сожалению, на данный турнир все места уже заняты.</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="sidebar-card registration-closed-card">
+                    <div class="closed-message">
+                        <i class="fas fa-lock"></i>
+                        <h4>Регистрация закрыта</h4>
+                        <p>Регистрация на этот турнир уже завершена.</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

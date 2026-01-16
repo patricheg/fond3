@@ -198,6 +198,7 @@ class TournamentRegistration(db.Model):
     phone = db.Column(db.String(50), nullable=False)  # Телефон
     email = db.Column(db.String(100))  # Email (опционально)
     age = db.Column(db.Integer)  # Возраст
+    weight = db.Column(db.Float)  # Вес (кг)
     sport_category = db.Column(db.String(100))  # Спортивная категория/разряд
     disability_info = db.Column(db.Text)  # Информация об ограничениях (опционально)
     additional_info = db.Column(db.Text)  # Дополнительная информация

@@ -36,6 +36,7 @@
                 <th>Телефон</th>
                 <th>Email</th>
                 <th>Возраст</th>
+                <th>Вес (кг)</th>
                 <th>Категория</th>
                 <th>Дата регистрации</th>
                 <th>Статус</th>
@@ -50,6 +51,7 @@
                 <td>{{ registration.phone }}</td>
                 <td>{{ registration.email or '-' }}</td>
                 <td>{{ registration.age or '-' }}</td>
+                <td>{{ registration.weight or '-' }}</td>
                 <td>{{ registration.sport_category or '-' }}</td>
                 <td>{{ registration.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
                 <td>

@@ -122,7 +122,7 @@
                 </div>
                 {% endif %}
                 <div class="card-content">
-                    <h3>{{ tournament.title }}</h3>
+                    <h3><a href="{{ url_for('tournament_detail', id=tournament.id) }}" class="card-title-link">{{ tournament.title }}</a></h3>
                     <p class="card-meta">
                         <i class="fas fa-calendar"></i> {{ tournament.date.strftime('%d.%m.%Y %H:%M') }}
                     </p>
@@ -132,9 +132,9 @@
                     </p>
                     {% endif %}
                     <p class="card-description">{{ tournament.description[:120] }}...</p>
-                    {% if tournament.registration_url %}
-                    <a href="{{ tournament.registration_url }}" class="btn btn-primary" target="_blank">Регистрация</a>
-                    {% endif %}
+                    <a href="{{ url_for('tournament_detail', id=tournament.id) }}" class="btn btn-primary">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
                 </div>
             </div>
             {% endfor %}

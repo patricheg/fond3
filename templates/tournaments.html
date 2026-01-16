@@ -40,7 +40,7 @@
                 </div>
                 {% endif %}
                 <div class="card-content">
-                    <h3>{{ tournament.title }}</h3>
+                    <h3><a href="{{ url_for('tournament_detail', id=tournament.id) }}" class="card-title-link">{{ tournament.title }}</a></h3>
                     
                     <div class="tournament-info">
                         <p class="tournament-meta">
@@ -67,13 +67,9 @@
                     
                     <p class="card-description">{{ tournament.description[:200] }}...</p>
                     
-                    {% if tournament.is_active %}
-                    <button class="btn btn-primary" onclick="openRegistrationModal({{ tournament.id }}, '{{ tournament.title }}')">
-                        <i class="fas fa-user-plus"></i> Зарегистрироваться
-                    </button>
-                    {% else %}
-                    <button class="btn btn-outline" disabled>Регистрация закрыта</button>
-                    {% endif %}
+                    <a href="{{ url_for('tournament_detail', id=tournament.id) }}" class="btn btn-primary">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
                 </div>
             </div>
             {% endfor %}
@@ -86,63 +82,4 @@
         {% endif %}
     </div>
 </section>
-
-<!-- Модальное окно регистрации -->
-<div id="registrationModal" class="modal">
-    <div class="modal-content modal-large">
-        <span class="modal-close" onclick="closeRegistrationModal()">&times;</span>
-        <h2>Регистрация на турнир</h2>
-        <p id="tournamentTitle" class="modal-subtitle"></p>
-        
-        <form id="registrationForm" method="POST" action="">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="full_name">ФИО участника <span class="required">*</span></label>
-                    <input type="text" id="full_name" name="full_name" required>
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="phone">Телефон <span class="required">*</span></label>
-                    <input type="tel" id="phone" name="phone" placeholder="+375 XX XXX-XX-XX" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="age">Возраст</label>
-                    <input type="number" id="age" name="age" min="1" max="120">
-                </div>
-                
-                <div class="form-group">
-                    <label for="sport_category">Спортивная категория/разряд</label>
-                    <input type="text" id="sport_category" name="sport_category" placeholder="КМС, МС и т.д.">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="disability_info">Информация об ограничениях здоровья (при наличии)</label>
-                <textarea id="disability_info" name="disability_info" rows="3" placeholder="Укажите, если есть особенности, о которых нужно знать организаторам"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="additional_info">Дополнительная информация</label>
-                <textarea id="additional_info" name="additional_info" rows="3" placeholder="Дополнительные комментарии или вопросы"></textarea>
-            </div>
-            
-            <div class="form-actions">
-                <button type="button" class="btn btn-outline" onclick="closeRegistrationModal()">Отмена</button>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-check"></i> Отправить заявку
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
 {% endblock %}
