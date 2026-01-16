@@ -188,3 +188,21 @@ class OurPeople(db.Model):
     order_position = db.Column(db.Integer, default=0)  # Порядок отображения
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class TournamentRegistration(db.Model):
+    """Модель регистрации на турнир"""
+    id = db.Column(db.Integer, primary_key=True)
+    tournament_id = db.Column(db.Integer, db.ForeignKey('tournament.id'), nullable=False)
+    full_name = db.Column(db.String(200), nullable=False)  # ФИО участника
+    phone = db.Column(db.String(50), nullable=False)  # Телефон
+    email = db.Column(db.String(100))  # Email (опционально)
+    age = db.Column(db.Integer)  # Возраст
+    sport_category = db.Column(db.String(100))  # Спортивная категория/разряд
+    disability_info = db.Column(db.Text)  # Информация об ограничениях (опционально)
+    additional_info = db.Column(db.Text)  # Дополнительная информация
+    status = db.Column(db.String(50), default='pending')  # pending, confirmed, cancelled
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Связь с турниром
+    tournament = db.relationship('Tournament', backref=db.backref('registrations', lazy=True))

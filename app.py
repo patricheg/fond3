@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from models import db, User, Fundraiser, News, Tournament, AboutPage, ContactInfo, OurPeople
+from models import db, User, Fundraiser, News, Tournament, AboutPage, ContactInfo, OurPeople, TournamentRegistration
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
@@ -128,6 +128,49 @@ def tournaments():
     """Страница турниров"""
     all_tournaments = Tournament.query.filter_by(is_active=True).order_by(Tournament.date).all()
     return render_template('tournaments.html', tournaments=all_tournaments)
+
+
+@app.route('/tournament/<int:id>/register', methods=['POST'])
+def register_tournament(id):
+    """Регистрация на турнир"""
+    tournament = Tournament.query.get_or_404(id)
+    
+    if not tournament.is_active:
+        flash('Регистрация на этот турнир закрыта', 'error')
+        return redirect(url_for('tournaments'))
+    
+    # Проверяем лимит участников
+    if tournament.participants_limit:
+        current_registrations = TournamentRegistration.query.filter_by(
+            tournament_id=id,
+            status='confirmed'
+        ).count()
+        if current_registrations >= tournament.participants_limit:
+            flash('К сожалению, все места на турнир заняты', 'error')
+            return redirect(url_for('tournaments'))
+    
+    # Создаем новую регистрацию
+    registration = TournamentRegistration(
+        tournament_id=id,
+        full_name=request.form.get('full_name'),
+        phone=request.form.get('phone'),
+        email=request.form.get('email'),
+        age=request.form.get('age'),
+        sport_category=request.form.get('sport_category'),
+        disability_info=request.form.get('disability_info'),
+        additional_info=request.form.get('additional_info'),
+        status='pending'  # Устанавливаем статус "В ожидании"
+    )
+    
+    try:
+        db.session.add(registration)
+        db.session.commit()
+        flash('Ваша заявка отправлена! Ожидайте подтверждения, мы свяжемся с вами в ближайшее время.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Произошла ошибка при регистрации. Попробуйте еще раз.', 'error')
+    
+    return redirect(url_for('tournaments'))
 
 
 @app.route('/about')
@@ -498,6 +541,45 @@ def admin_delete_tournament(id):
     db.session.commit()
     flash('Турнир успешно удален!', 'success')
     return redirect(url_for('admin_tournaments'))
+
+
+@app.route('/admin/tournament/<int:id>/registrations')
+@login_required
+def admin_tournament_registrations(id):
+    """Просмотр регистраций на турнир"""
+    tournament = Tournament.query.get_or_404(id)
+    registrations = TournamentRegistration.query.filter_by(tournament_id=id).order_by(TournamentRegistration.created_at.desc()).all()
+    return render_template('admin/tournament_registrations.html', tournament=tournament, registrations=registrations)
+
+
+@app.route('/admin/registration/<int:id>/status', methods=['POST'])
+@login_required
+def admin_update_registration_status(id):
+    """Изменение статуса регистрации"""
+    registration = TournamentRegistration.query.get_or_404(id)
+    new_status = request.form.get('status')
+    
+    if new_status in ['pending', 'confirmed', 'cancelled']:
+        registration.status = new_status
+        db.session.commit()
+        flash('Статус регистрации обновлен!', 'success')
+    else:
+        flash('Некорректный статус', 'error')
+    
+    return redirect(url_for('admin_tournament_registrations', id=registration.tournament_id))
+
+
+@app.route('/admin/registration/<int:id>/delete', methods=['POST'])
+@login_required
+def admin_delete_registration(id):
+    """Удаление регистрации"""
+    registration = TournamentRegistration.query.get_or_404(id)
+    tournament_id = registration.tournament_id
+    
+    db.session.delete(registration)
+    db.session.commit()
+    flash('Регистрация удалена!', 'success')
+    return redirect(url_for('admin_tournament_registrations', id=tournament_id))
 
 
 # ==================== АДМИН: СТРАНИЦА О НАС ====================

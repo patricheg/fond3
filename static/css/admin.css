@@ -597,6 +597,99 @@
 }
 
 /* ======================
+   РЕГИСТРАЦИИ НА ТУРНИРЫ
+   ====================== */
+
+.admin-breadcrumb {
+    margin-bottom: 1.5rem;
+}
+
+.admin-breadcrumb a {
+    color: #3498db;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.admin-breadcrumb a:hover {
+    gap: 1rem;
+    color: #2980b9;
+}
+
+.tournament-info-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.tournament-info-box h3 {
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.tournament-info-box p {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.05rem;
+}
+
+.tournament-info-box i {
+    width: 20px;
+}
+
+.details-row {
+    background: #f8f9fa !important;
+}
+
+.details-row:hover {
+    background: #f8f9fa !important;
+}
+
+.registration-details {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.details-section {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.details-section h4 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.details-section p {
+    color: #555;
+    line-height: 1.8;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* ======================
    АДАПТИВНОСТЬ
    ====================== */
 
@@ -634,5 +727,14 @@
 
     .action-buttons {
         grid-template-columns: 1fr;
+    }
+    
+    .registration-details {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .tournament-info-box {
+        padding: 1.5rem;
     }
 }

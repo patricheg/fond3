@@ -39,6 +39,9 @@
                     </span>
                 </td>
                 <td class="table-actions">
+                    <a href="{{ url_for('admin_tournament_registrations', id=tournament.id) }}" class="btn-icon" title="Регистрации">
+                        <i class="fas fa-users"></i>
+                    </a>
                     <a href="{{ url_for('admin_edit_tournament', id=tournament.id) }}" class="btn-icon" title="Редактировать">
                         <i class="fas fa-edit"></i>
                     </a>

@@ -224,3 +224,51 @@ function goToSlide(dot, index) {
     
     showSlide(slider, index);
 }
+
+/**
+ * Открыть модальное окно регистрации на турнир
+ */
+function openRegistrationModal(tournamentId, tournamentTitle) {
+    const modal = document.getElementById('registrationModal');
+    const form = document.getElementById('registrationForm');
+    const titleElement = document.getElementById('tournamentTitle');
+    
+    if (!modal || !form || !titleElement) return;
+    
+    // Устанавливаем название турнира и action формы
+    titleElement.textContent = tournamentTitle;
+    form.action = '/tournament/' + tournamentId + '/register';
+    
+    // Очищаем форму
+    form.reset();
+    
+    // Показываем модальное окно
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Закрыть модальное окно регистрации
+ */
+function closeRegistrationModal() {
+    const modal = document.getElementById('registrationModal');
+    if (!modal) return;
+    
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Закрытие модального окна при клике вне его
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('registrationModal');
+    if (event.target === modal) {
+        closeRegistrationModal();
+    }
+});
+
+// Закрытие модального окна по ESC
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeRegistrationModal();
+    }
+});
