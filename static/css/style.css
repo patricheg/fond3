@@ -1431,41 +1431,100 @@ body {
 
 @media (max-width: 768px) {
     .volunteers-carousel {
-        padding: 0 50px;
+        padding: 0 45px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .volunteers-track {
+        gap: 1rem;
     }
     
     .volunteer-slide {
         min-width: 100%;
+        max-width: 100%;
+    }
+    
+    .volunteer-card {
+        max-width: 100%;
+        margin: 0 auto;
     }
     
     .carousel-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
     }
     
     .carousel-prev {
-        left: 3px;
+        left: 2px;
     }
     
     .carousel-next {
-        right: 3px;
+        right: 2px;
     }
     
     .volunteer-photo {
-        height: 280px;
+        height: 240px;
     }
     
     .volunteer-info {
-        padding: 1.2rem 1.2rem;
+        padding: 1rem 1rem 1.2rem;
     }
     
     .volunteer-info h3 {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .volunteer-role {
+        font-size: 0.85rem;
+        margin-bottom: 0.6rem;
     }
     
     .volunteer-description {
-        font-size: 0.9rem;
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+    
+    .carousel-indicators {
+        margin-bottom: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .volunteers-carousel {
+        padding: 0 38px;
+    }
+    
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.95rem;
+    }
+    
+    .volunteer-photo {
+        height: 200px;
+    }
+    
+    .volunteer-info {
+        padding: 0.9rem 0.9rem 1rem;
+    }
+    
+    .volunteer-info h3 {
+        font-size: 1rem;
+    }
+    
+    .volunteer-role {
+        font-size: 0.8rem;
+    }
+    
+    .volunteer-description {
+        font-size: 0.85rem;
     }
 }
 

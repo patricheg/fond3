@@ -119,7 +119,7 @@
                             {% if volunteer.role %}
                             <p class="volunteer-role">{{ volunteer.role }}</p>
                             {% endif %}
-                            <p class="volunteer-description">{{ volunteer.description[:200] }}{% if volunteer.description|length > 200 %}...{% endif %}</p>
+                            <p class="volunteer-description">{{ volunteer.description[:180] }}{% if volunteer.description|length > 180 %}...{% endif %}</p>
                         </div>
                     </div>
                 </div>
