@@ -91,6 +91,59 @@
 </section>
 {% endif %}
 
+{% if volunteers %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Наши волонтеры</h2>
+        
+        <div class="volunteers-carousel">
+            <button class="carousel-btn carousel-prev" onclick="moveVolunteerSlide(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="volunteers-track">
+                {% for volunteer in volunteers %}
+                <div class="volunteer-slide">
+                    <div class="volunteer-card">
+                        <div class="volunteer-photo">
+                            {% if volunteer.photo_url %}
+                            <img src="{{ volunteer.photo_url }}" alt="{{ volunteer.name }}">
+                            {% else %}
+                            <div class="volunteer-photo-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="volunteer-info">
+                            <h3>{{ volunteer.name }}</h3>
+                            {% if volunteer.role %}
+                            <p class="volunteer-role">{{ volunteer.role }}</p>
+                            {% endif %}
+                            <p class="volunteer-description">{{ volunteer.description[:100] }}{% if volunteer.description|length > 100 %}...{% endif %}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <button class="carousel-btn carousel-next" onclick="moveVolunteerSlide(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <div class="carousel-indicators">
+            {% for volunteer in volunteers %}
+            <span class="carousel-indicator" onclick="goToVolunteerSlide({{ loop.index0 }})"></span>
+            {% endfor %}
+        </div>
+        
+        <div class="section-footer">
+            <a href="{{ url_for('our_people') }}" class="btn btn-outline">Все волонтеры</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
 {% if tournaments %}
 <section class="section bg-light">
     <div class="container">
@@ -187,60 +240,6 @@
         </div>
         <div class="section-footer">
             <a href="{{ url_for('news') }}" class="btn btn-outline">Все новости</a>
-        </div>
-    </div>
-</section>
-{% endif %}
-
-{% if volunteers %}
-<section class="section bg-light">
-    <div class="container">
-        <h2 class="section-title">Наши волонтеры</h2>
-        <p class="section-subtitle">Люди и организации, которые помогают нам изменять мир к лучшему</p>
-        
-        <div class="volunteers-carousel">
-            <button class="carousel-btn carousel-prev" onclick="moveVolunteerSlide(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            
-            <div class="volunteers-track">
-                {% for volunteer in volunteers %}
-                <div class="volunteer-slide">
-                    <div class="volunteer-card">
-                        <div class="volunteer-photo">
-                            {% if volunteer.photo_url %}
-                            <img src="{{ volunteer.photo_url }}" alt="{{ volunteer.name }}">
-                            {% else %}
-                            <div class="volunteer-photo-placeholder">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="volunteer-info">
-                            <h3>{{ volunteer.name }}</h3>
-                            {% if volunteer.role %}
-                            <p class="volunteer-role">{{ volunteer.role }}</p>
-                            {% endif %}
-                            <p class="volunteer-description">{{ volunteer.description[:150] }}{% if volunteer.description|length > 150 %}...{% endif %}</p>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            
-            <button class="carousel-btn carousel-next" onclick="moveVolunteerSlide(1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-        
-        <div class="carousel-indicators">
-            {% for volunteer in volunteers %}
-            <span class="carousel-indicator" onclick="goToVolunteerSlide({{ loop.index0 }})"></span>
-            {% endfor %}
-        </div>
-        
-        <div class="section-footer">
-            <a href="{{ url_for('our_people') }}" class="btn btn-outline">Все волонтеры</a>
         </div>
     </div>
 </section>

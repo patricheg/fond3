@@ -333,13 +333,19 @@ function updateVolunteerCarousel() {
         }
     });
     
-    // Показываем/скрываем кнопки навигации
+    // Показываем кнопки навигации всегда
     const prevBtn = document.querySelector('.carousel-prev');
     const nextBtn = document.querySelector('.carousel-next');
     
     if (prevBtn && nextBtn) {
-        prevBtn.style.display = currentVolunteerSlide === 0 ? 'none' : 'flex';
-        nextBtn.style.display = currentVolunteerSlide >= maxSlide ? 'none' : 'flex';
+        prevBtn.style.display = 'flex';
+        nextBtn.style.display = 'flex';
+        
+        // Скрываем стрелочки только если недостаточно слайдов
+        if (slides.length <= slidesPerView) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        }
     }
 }
 
