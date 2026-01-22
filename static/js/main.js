@@ -272,3 +272,110 @@ document.addEventListener('keydown', function(event) {
         closeRegistrationModal();
     }
 });
+
+/**
+ * Карусель волонтеров
+ */
+let currentVolunteerSlide = 0;
+
+// Инициализация карусели волонтеров при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.volunteers-carousel');
+    if (carousel) {
+        updateVolunteerCarousel();
+        
+        // Автоматическая прокрутка каждые 5 секунд
+        setInterval(() => {
+            moveVolunteerSlide(1);
+        }, 5000);
+    }
+});
+
+function updateVolunteerCarousel() {
+    const track = document.querySelector('.volunteers-track');
+    const slides = document.querySelectorAll('.volunteer-slide');
+    const indicators = document.querySelectorAll('.carousel-indicator');
+    
+    if (!track || slides.length === 0) return;
+    
+    // Определяем количество видимых слайдов в зависимости от ширины экрана
+    let slidesPerView = 3;
+    if (window.innerWidth <= 768) {
+        slidesPerView = 1;
+    } else if (window.innerWidth <= 992) {
+        slidesPerView = 2;
+    }
+    
+    // Максимальный индекс для текущего размера экрана
+    const maxSlide = Math.max(0, slides.length - slidesPerView);
+    
+    // Ограничиваем текущий слайд
+    if (currentVolunteerSlide > maxSlide) {
+        currentVolunteerSlide = maxSlide;
+    }
+    if (currentVolunteerSlide < 0) {
+        currentVolunteerSlide = 0;
+    }
+    
+    // Вычисляем смещение
+    const slideWidth = slides[0].offsetWidth;
+    const gap = 32; // 2rem в пикселях
+    const offset = -(currentVolunteerSlide * (slideWidth + gap));
+    
+    // Применяем трансформацию
+    track.style.transform = `translateX(${offset}px)`;
+    
+    // Обновляем индикаторы
+    indicators.forEach((indicator, index) => {
+        indicator.classList.remove('active');
+        if (index === currentVolunteerSlide) {
+            indicator.classList.add('active');
+        }
+    });
+    
+    // Показываем/скрываем кнопки навигации
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    
+    if (prevBtn && nextBtn) {
+        prevBtn.style.display = currentVolunteerSlide === 0 ? 'none' : 'flex';
+        nextBtn.style.display = currentVolunteerSlide >= maxSlide ? 'none' : 'flex';
+    }
+}
+
+function moveVolunteerSlide(direction) {
+    const slides = document.querySelectorAll('.volunteer-slide');
+    if (slides.length === 0) return;
+    
+    let slidesPerView = 3;
+    if (window.innerWidth <= 768) {
+        slidesPerView = 1;
+    } else if (window.innerWidth <= 992) {
+        slidesPerView = 2;
+    }
+    
+    const maxSlide = Math.max(0, slides.length - slidesPerView);
+    
+    currentVolunteerSlide += direction;
+    
+    // Зацикливание
+    if (currentVolunteerSlide > maxSlide) {
+        currentVolunteerSlide = 0;
+    } else if (currentVolunteerSlide < 0) {
+        currentVolunteerSlide = maxSlide;
+    }
+    
+    updateVolunteerCarousel();
+}
+
+function goToVolunteerSlide(index) {
+    currentVolunteerSlide = index;
+    updateVolunteerCarousel();
+}
+
+// Обновление карусели при изменении размера окна
+window.addEventListener('resize', () => {
+    if (document.querySelector('.volunteers-carousel')) {
+        updateVolunteerCarousel();
+    }
+});

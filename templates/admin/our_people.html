@@ -1,13 +1,13 @@
 {% extends "admin/base.html" %}
 
-{% block title %}Наши люди - Админ{% endblock %}
+{% block title %}Волонтеры - Админ{% endblock %}
 
-{% block page_title %}Наши люди{% endblock %}
+{% block page_title %}Волонтеры{% endblock %}
 
 {% block content %}
 <div class="admin-actions">
     <a href="{{ url_for('admin_add_person') }}" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Добавить человека/организацию
+        <i class="fas fa-plus"></i> Добавить волонтера
     </a>
 </div>
 
@@ -67,7 +67,7 @@
 {% else %}
 <div class="empty-state">
     <i class="fas fa-users"></i>
-    <p>Еще нет записей. Добавьте первого человека или организацию!</p>
+    <p>Еще нет записей. Добавьте первого волонтера!</p>
     <a href="{{ url_for('admin_add_person') }}" class="btn btn-primary">
         <i class="fas fa-plus"></i> Добавить
     </a>

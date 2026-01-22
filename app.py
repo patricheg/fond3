@@ -87,11 +87,13 @@ def index():
     latest_news = News.query.filter_by(is_published=True).order_by(News.created_at.desc()).limit(3).all()
     active_fundraisers = Fundraiser.query.filter_by(is_active=True).order_by(Fundraiser.created_at.desc()).limit(3).all()
     upcoming_tournaments = Tournament.query.filter_by(is_active=True).filter(Tournament.date >= datetime.utcnow()).order_by(Tournament.date).limit(3).all()
+    volunteers = OurPeople.query.filter_by(is_active=True).order_by(OurPeople.order_position, OurPeople.created_at.desc()).all()
     
     return render_template('index.html', 
                          news=latest_news, 
                          fundraisers=active_fundraisers,
-                         tournaments=upcoming_tournaments)
+                         tournaments=upcoming_tournaments,
+                         volunteers=volunteers)
 
 
 @app.route('/fundraisers')
@@ -215,7 +217,7 @@ def about():
 
 @app.route('/our-people')
 def our_people():
-    """Страница Наши люди"""
+    """Страница Волонтеры"""
     people = OurPeople.query.filter_by(is_active=True).order_by(OurPeople.order_position, OurPeople.created_at.desc()).all()
     return render_template('our_people.html', people=people)
 
@@ -724,7 +726,7 @@ def admin_edit_contacts():
 @app.route('/admin/our-people')
 @login_required
 def admin_our_people():
-    """Список людей и организаций"""
+    """Список волонтеров"""
     people = OurPeople.query.order_by(OurPeople.order_position, OurPeople.created_at.desc()).all()
     return render_template('admin/our_people.html', people=people)
 
