@@ -299,11 +299,13 @@ function updateVolunteerCarousel() {
     if (!track || slides.length === 0) return;
     
     // Определяем количество видимых слайдов в зависимости от ширины экрана
-    let slidesPerView = 3;
+    let slidesPerView = 4;
     if (window.innerWidth <= 768) {
         slidesPerView = 1;
     } else if (window.innerWidth <= 992) {
         slidesPerView = 2;
+    } else if (window.innerWidth <= 1200) {
+        slidesPerView = 3;
     }
     
     // Максимальный индекс для текущего размера экрана
@@ -319,7 +321,7 @@ function updateVolunteerCarousel() {
     
     // Вычисляем смещение
     const slideWidth = slides[0].offsetWidth;
-    const gap = 32; // 2rem в пикселях
+    const gap = 24; // 1.5rem в пикселях
     const offset = -(currentVolunteerSlide * (slideWidth + gap));
     
     // Применяем трансформацию
@@ -333,16 +335,16 @@ function updateVolunteerCarousel() {
         }
     });
     
-    // Показываем кнопки навигации всегда
+    // Показываем кнопки навигации
     const prevBtn = document.querySelector('.carousel-prev');
     const nextBtn = document.querySelector('.carousel-next');
     
     if (prevBtn && nextBtn) {
-        prevBtn.style.display = 'flex';
-        nextBtn.style.display = 'flex';
-        
-        // Скрываем стрелочки только если недостаточно слайдов
-        if (slides.length <= slidesPerView) {
+        // Показываем стрелочки если волонтеров больше 1
+        if (slides.length > 1) {
+            prevBtn.style.display = 'flex';
+            nextBtn.style.display = 'flex';
+        } else {
             prevBtn.style.display = 'none';
             nextBtn.style.display = 'none';
         }
@@ -353,11 +355,13 @@ function moveVolunteerSlide(direction) {
     const slides = document.querySelectorAll('.volunteer-slide');
     if (slides.length === 0) return;
     
-    let slidesPerView = 3;
+    let slidesPerView = 4;
     if (window.innerWidth <= 768) {
         slidesPerView = 1;
     } else if (window.innerWidth <= 992) {
         slidesPerView = 2;
+    } else if (window.innerWidth <= 1200) {
+        slidesPerView = 3;
     }
     
     const maxSlide = Math.max(0, slides.length - slidesPerView);

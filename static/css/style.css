@@ -1280,7 +1280,7 @@ body {
 }
 
 .volunteer-slide {
-    min-width: calc(33.333% - 1rem);
+    min-width: calc(25% - 1.125rem);
     flex-shrink: 0;
 }
 
@@ -1416,6 +1416,12 @@ body {
 }
 
 /* Адаптивность карусели */
+@media (max-width: 1200px) {
+    .volunteer-slide {
+        min-width: calc(33.333% - 1rem);
+    }
+}
+
 @media (max-width: 992px) {
     .volunteer-slide {
         min-width: calc(50% - 0.75rem);
