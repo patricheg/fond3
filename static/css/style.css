@@ -1268,7 +1268,7 @@ body {
 .volunteers-carousel {
     position: relative;
     max-width: 100%;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 2rem;
     overflow: hidden;
     padding: 0 60px;
 }
@@ -1302,7 +1302,7 @@ body {
 
 .volunteer-photo {
     width: 100%;
-    height: 180px;
+    height: 360px;
     overflow: hidden;
     background: #f8f9fa;
     display: flex;
@@ -1317,37 +1317,37 @@ body {
 }
 
 .volunteer-photo-placeholder {
-    font-size: 3rem;
+    font-size: 5rem;
     color: #ccc;
 }
 
 .volunteer-info {
-    padding: 1rem 1.25rem;
+    padding: 1.5rem 1.5rem;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .volunteer-info h3 {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.6rem;
     color: var(--dark-color);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.3;
 }
 
 .volunteer-role {
     color: var(--primary-color);
     font-weight: 600;
-    font-size: 0.8rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .volunteer-description {
     color: #666;
-    line-height: 1.5;
-    font-size: 0.9rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
 }
 
 .carousel-btn {
@@ -1357,8 +1357,8 @@ body {
     background: rgba(52, 152, 219, 0.9);
     border: 2px solid #fff;
     color: white;
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -1367,7 +1367,7 @@ body {
     box-shadow: 0 3px 15px rgba(0,0,0,0.3);
     transition: var(--transition);
     z-index: 10;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 .carousel-btn:hover {
@@ -1452,19 +1452,19 @@ body {
     }
     
     .volunteer-photo {
-        height: 160px;
+        height: 280px;
     }
     
     .volunteer-info {
-        padding: 0.9rem 1rem;
+        padding: 1.2rem 1.2rem;
     }
     
     .volunteer-info h3 {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
     
     .volunteer-description {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
     }
 }
 
