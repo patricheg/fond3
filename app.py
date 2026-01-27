@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, make_response
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import db, User, Fundraiser, News, Tournament, AboutPage, ContactInfo, OurPeople, TournamentRegistration
 from datetime import datetime
@@ -817,6 +817,82 @@ def admin_delete_person(id):
     db.session.commit()
     flash('Запись успешно удалена!', 'success')
     return redirect(url_for('admin_our_people'))
+
+
+# ==================== SEO МАРШРУТЫ ====================
+
+@app.route('/robots.txt')
+def robots_txt():
+    """Возвращает robots.txt для поисковых систем"""
+    response = make_response(render_template('robots.txt'))
+    response.headers['Content-Type'] = 'text/plain'
+    return response
+
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    """Генерирует динамический sitemap.xml"""
+    pages = []
+    
+    # Главная страница
+    pages.append({
+        'loc': url_for('index', _external=True),
+        'changefreq': 'daily',
+        'priority': '1.0',
+        'lastmod': datetime.utcnow().strftime('%Y-%m-%d')
+    })
+    
+    # Статические страницы
+    static_pages = [
+        ('fundraisers', 'weekly', '0.9'),
+        ('tournaments', 'weekly', '0.9'),
+        ('news', 'daily', '0.8'),
+        ('our_people', 'monthly', '0.7'),
+        ('about', 'monthly', '0.6')
+    ]
+    
+    for route, changefreq, priority in static_pages:
+        pages.append({
+            'loc': url_for(route, _external=True),
+            'changefreq': changefreq,
+            'priority': priority,
+            'lastmod': datetime.utcnow().strftime('%Y-%m-%d')
+        })
+    
+    # Сборы средств
+    fundraisers = Fundraiser.query.filter_by(is_active=True).all()
+    for fundraiser in fundraisers:
+        pages.append({
+            'loc': url_for('fundraiser_detail', id=fundraiser.id, _external=True),
+            'changefreq': 'weekly',
+            'priority': '0.8',
+            'lastmod': fundraiser.created_at.strftime('%Y-%m-%d')
+        })
+    
+    # Турниры
+    tournaments = Tournament.query.filter(Tournament.date >= datetime.utcnow()).all()
+    for tournament in tournaments:
+        pages.append({
+            'loc': url_for('tournament_detail', id=tournament.id, _external=True),
+            'changefreq': 'weekly',
+            'priority': '0.8',
+            'lastmod': tournament.created_at.strftime('%Y-%m-%d')
+        })
+    
+    # Новости
+    news_items = News.query.order_by(News.created_at.desc()).limit(100).all()
+    for news_item in news_items:
+        pages.append({
+            'loc': url_for('news_detail', id=news_item.id, _external=True),
+            'changefreq': 'monthly',
+            'priority': '0.7',
+            'lastmod': news_item.created_at.strftime('%Y-%m-%d')
+        })
+    
+    sitemap_xml = render_template('sitemap.xml', pages=pages)
+    response = make_response(sitemap_xml)
+    response.headers['Content-Type'] = 'application/xml'
+    return response
 
 
 # ==================== ИНИЦИАЛИЗАЦИЯ БД ====================

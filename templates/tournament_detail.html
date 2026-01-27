@@ -1,6 +1,60 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tournament.title }} - Турниры{% endblock %}
+{% block title %}{{ tournament.title }} - Спортивный турнир | Фонд помощи спортсменам{% endblock %}
+
+{% block meta_title %}{{ tournament.title }} - Спортивный турнир {{ tournament.date.strftime('%d.%m.%Y') }}{% endblock %}
+
+{% block meta_description %}{{ tournament.description[:160] }}. Турнир состоится {{ tournament.date.strftime('%d.%m.%Y в %H:%M') }}{% if tournament.location %} в {{ tournament.location }}{% endif %}. Регистрация открыта!{% endblock %}
+
+{% block meta_keywords %}спортивный турнир, {{ tournament.title }}, соревнования, {{ tournament.date.strftime('%Y') }}, регистрация на турнир{% endblock %}
+
+{% block og_title %}{{ tournament.title }} - {{ tournament.date.strftime('%d.%m.%Y') }}{% endblock %}
+
+{% block og_description %}{{ tournament.description[:200] }}. Место: {{ tournament.location or 'уточняется' }}.{% endblock %}
+
+{% set images = tournament.get_images() %}
+{% if images %}
+{% block og_image %}{{ images[0] if images[0].startswith('http') else url_for('static', filename=images[0].lstrip('/'), _external=True) }}{% endblock %}
+{% endif %}
+
+{% block og_type %}article{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsEvent",
+  "name": "{{ tournament.title }}",
+  "description": "{{ tournament.description|replace('"', '\\"')|replace('\n', ' ') }}",
+  "url": "{{ request.url }}",
+  "startDate": "{{ tournament.date.isoformat() }}",
+  {% if tournament.location %}
+  "location": {
+    "@type": "Place",
+    "name": "{{ tournament.location }}"
+  },
+  {% endif %}
+  "image": {% if images %}"{{ images[0] if images[0].startswith('http') else url_for('static', filename=images[0].lstrip('/'), _external=True) }}"{% else %}""{% endif %},
+  "organizer": {
+    "@type": "NGO",
+    "name": "Благотворительный местный фонд помощи спортсменам",
+    "url": "{{ url_for('index', _external=True) }}"
+  },
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  {% if tournament.max_participants %}
+  "maximumAttendeeCapacity": {{ tournament.max_participants }},
+  {% endif %}
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "BYN",
+    "availability": "https://schema.org/{% if tournament.is_registration_open and (not tournament.max_participants or tournament.current_participants < tournament.max_participants) %}InStock{% else %}SoldOut{% endif %}",
+    "url": "{{ request.url }}"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <section class="detail-page">
@@ -43,6 +97,16 @@
                 
                 <div class="detail-content">
                     <p style="white-space: pre-line;">{{ tournament.description }}</p>
+                </div>
+                
+                <div class="share-section">
+                    <p>Поделиться:</p>
+                    <div class="share-buttons">
+                        <a href="https://vk.com/share.php?url={{ request.url }}&title={{ tournament.title }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в ВКонтакте"><i class="fab fa-vk"></i></a>
+                        <a href="https://t.me/share/url?url={{ request.url }}&text={{ tournament.title }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="https://api.whatsapp.com/send?text={{ tournament.title }}%20{{ request.url }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в Facebook"><i class="fab fa-facebook"></i></a>
+                    </div>
                 </div>
             </div>
             

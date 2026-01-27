@@ -3,9 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
     <title>{% block title %}Благотворительный местный фонд помощи спортсменам{% endblock %}</title>
+    <meta name="title" content="{% block meta_title %}Благотворительный местный фонд помощи спортсменам{% endblock %}">
+    <meta name="description" content="{% block meta_description %}Благотворительный фонд поддержки спортсменов в Беларуси. Помогаем спортсменам достигать целей, организуем турниры и мероприятия. Присоединяйтесь к нашей команде волонтеров!{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}благотворительность, спорт, помощь спортсменам, турниры, фонд, Беларусь, волонтеры, сборы средств{% endblock %}">
+    <meta name="author" content="Благотворительный местный фонд помощи спортсменам">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{% block canonical %}{{ request.url }}{% endblock %}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}{{ request.url }}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Благотворительный местный фонд помощи спортсменам{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Благотворительный фонд поддержки спортсменов в Беларуси. Помогаем спортсменам достигать целей, организуем турниры и мероприятия.{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='images/og-image.jpg', _external=True) }}{% endblock %}">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="Благотворительный фонд помощи спортсменам">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.url }}">
+    <meta property="twitter:title" content="{% block twitter_title %}Благотворительный местный фонд помощи спортсменам{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}Благотворительный фонд поддержки спортсменов в Беларуси{% endblock %}">
+    <meta property="twitter:image" content="{% block twitter_image %}{{ url_for('static', filename='images/og-image.jpg', _external=True) }}{% endblock %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
     <nav class="navbar">
@@ -56,9 +86,9 @@
                 <div class="footer-section">
                     <h3>Социальные сети</h3>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-vk"></i></a>
-                        <a href="#"><i class="fab fa-telegram"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="VKontakte"><i class="fab fa-vk"></i></a>
+                        <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -67,6 +97,37 @@
             </div>
         </div>
     </footer>
+
+    <!-- Schema.org Structured Data for Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NGO",
+      "name": "Благотворительный местный фонд помощи спортсменам",
+      "description": "Благотворительный фонд поддержки спортсменов в Беларуси",
+      "url": "{{ request.url_root }}",
+      "logo": "{{ url_for('static', filename='images/logo.png', _external=True) }}",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+7-999-123-45-67",
+        "contactType": "customer service",
+        "email": "info@sportfund.ru",
+        "areaServed": "BY",
+        "availableLanguage": ["Russian", "Belarusian"]
+      },
+      "sameAs": [
+        "https://vk.com/sportfund",
+        "https://t.me/sportfund",
+        "https://instagram.com/sportfund"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "BY"
+      }
+    }
+    </script>
+    
+    {% block structured_data %}{% endblock %}
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>

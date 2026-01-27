@@ -1,6 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}{{ about.title }} - Благотворительный фонд{% endblock %}
+{% block title %}{{ about.title }} - О благотворительном фонде помощи спортсменам{% endblock %}
+
+{% block meta_title %}О нас - Благотворительный местный фонд помощи спортсменам{% endblock %}
+
+{% block meta_description %}{{ about.content[:160] }}. Наша миссия, видение и достижения. Узнайте больше о нашей работе по поддержке спортсменов.{% endblock %}
+
+{% block meta_keywords %}о нас, благотворительный фонд, миссия, видение, помощь спортсменам, документы, сертификаты{% endblock %}
+
+{% block og_title %}О благотворительном фонде помощи спортсменам{% endblock %}
+
+{% block og_description %}{{ about.mission[:200] if about.mission else about.content[:200] }}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "{{ about.title }}",
+  "description": "{{ about.content|replace('"', '\\"')|replace('\n', ' ') }}",
+  "url": "{{ request.url }}",
+  "mainEntity": {
+    "@type": "NGO",
+    "name": "Благотворительный местный фонд помощи спортсменам",
+    "description": "{{ about.mission|replace('"', '\\"')|replace('\n', ' ') if about.mission else '' }}",
+    "slogan": "{{ about.vision|replace('"', '\\"')|replace('\n', ' ') if about.vision else '' }}",
+    "url": "{{ url_for('index', _external=True) }}"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <section class="page-header">

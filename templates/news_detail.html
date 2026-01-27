@@ -1,6 +1,57 @@
 {% extends "base.html" %}
 
-{% block title %}{{ news.title }} - Новости{% endblock %}
+{% block title %}{{ news.title }} - Новости фонда | Благотворительный фонд{% endblock %}
+
+{% block meta_title %}{{ news.title }} - {{ news.created_at.strftime('%d.%m.%Y') }}{% endblock %}
+
+{% block meta_description %}{{ news.summary or news.content[:160] }}. Новости благотворительного фонда помощи спортсменам.{% endblock %}
+
+{% block meta_keywords %}новости, благотворительность, спорт, {{ news.title }}, фонд помощи спортсменам{% endblock %}
+
+{% block og_title %}{{ news.title }}{% endblock %}
+
+{% block og_description %}{{ news.summary or news.content[:200] }}{% endblock %}
+
+{% block og_type %}article{% endblock %}
+
+{% set images = news.get_images() %}
+{% if images %}
+{% block og_image %}{{ images[0] if images[0].startswith('http') else url_for('static', filename=images[0].lstrip('/'), _external=True) }}{% endblock %}
+{% endif %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "{{ news.title }}",
+  "description": "{{ (news.summary or news.content[:200])|replace('"', '\\"')|replace('\n', ' ') }}",
+  "articleBody": "{{ news.content|replace('"', '\\"')|replace('\n', ' ') }}",
+  "url": "{{ request.url }}",
+  "datePublished": "{{ news.created_at.isoformat() }}",
+  "dateModified": "{{ news.created_at.isoformat() }}",
+  "author": {
+    "@type": "Organization",
+    "name": "Благотворительный местный фонд помощи спортсменам"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Благотворительный местный фонд помощи спортсменам",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ url_for('static', filename='images/logo.png', _external=True) }}"
+    }
+  },
+  {% if images %}
+  "image": "{{ images[0] if images[0].startswith('http') else url_for('static', filename=images[0].lstrip('/'), _external=True) }}",
+  {% endif %}
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.url }}"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <section class="detail-page">
@@ -39,9 +90,10 @@
                 <a href="{{ url_for('news') }}" class="btn btn-outline">← Назад к новостям</a>
                 <div class="share-section">
                     <span>Поделиться:</span>
-                    <a href="#" class="share-btn"><i class="fab fa-vk"></i></a>
-                    <a href="#" class="share-btn"><i class="fab fa-telegram"></i></a>
-                    <a href="#" class="share-btn"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://vk.com/share.php?url={{ request.url }}&title={{ news.title }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в ВКонтакте"><i class="fab fa-vk"></i></a>
+                    <a href="https://t.me/share/url?url={{ request.url }}&text={{ news.title }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="https://api.whatsapp.com/send?text={{ news.title }}%20{{ request.url }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в Facebook"><i class="fab fa-facebook"></i></a>
                 </div>
             </div>
         </article>

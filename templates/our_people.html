@@ -1,6 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Волонтеры - Благотворительный фонд{% endblock %}
+{% block title %}Наши волонтеры - Люди, которые помогают | Благотворительный фонд{% endblock %}
+
+{% block meta_title %}Волонтеры благотворительного фонда помощи спортсменам{% endblock %}
+
+{% block meta_description %}Познакомьтесь с нашими волонтерами - людьми и организациями, которые делают нашу благотворительную работу возможной. Присоединяйтесь к команде!{% endblock %}
+
+{% block meta_keywords %}волонтеры, благотворительность, команда, помощь, наши люди, меценаты{% endblock %}
+
+{% block og_title %}Наши волонтеры - Благотворительный фонд помощи спортсменам{% endblock %}
+
+{% block og_description %}Люди и организации, которые делают нашу благотворительную работу возможной{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Волонтеры",
+  "description": "Люди и организации, которые делают нашу работу возможной",
+  "url": "{{ request.url }}",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Благотворительный местный фонд помощи спортсменам",
+    "url": "{{ url_for('index', _external=True) }}"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <section class="page-header">

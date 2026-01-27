@@ -1,6 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Сборы - Благотворительный фонд{% endblock %}
+{% block title %}Благотворительные сборы - Помощь спортсменам | Фонд{% endblock %}
+
+{% block meta_title %}Благотворительные сборы для спортсменов - Фонд помощи{% endblock %}
+
+{% block meta_description %}Все активные благотворительные сборы для поддержки спортсменов. Помогите спортсменам осуществить их мечты! Прозрачная система донатов.{% endblock %}
+
+{% block meta_keywords %}благотворительные сборы, помощь спортсменам, донаты, сбор средств, поддержка, благотворительность{% endblock %}
+
+{% block og_title %}Благотворительные сборы - Помощь спортсменам{% endblock %}
+
+{% block og_description %}Все активные благотворительные сборы для поддержки спортсменов{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Благотворительные сборы",
+  "description": "Помогите спортсменам осуществить их мечты",
+  "url": "{{ request.url }}",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Благотворительный местный фонд помощи спортсменам",
+    "url": "{{ url_for('index', _external=True) }}"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <section class="page-header">

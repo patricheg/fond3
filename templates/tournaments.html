@@ -1,6 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Турниры - Благотворительный фонд{% endblock %}
+{% block title %}Спортивные турниры - Соревнования и мероприятия | Фонд{% endblock %}
+
+{% block meta_title %}Спортивные турниры и соревнования - Благотворительный фонд{% endblock %}
+
+{% block meta_description %}Предстоящие и прошедшие спортивные турниры. Регистрация на соревнования для спортсменов. Организуем инклюзивные спортивные мероприятия.{% endblock %}
+
+{% block meta_keywords %}спортивные турниры, соревнования, регистрация, мероприятия, спорт, благотворительность{% endblock %}
+
+{% block og_title %}Спортивные турниры - Благотворительный фонд{% endblock %}
+
+{% block og_description %}Спортивные мероприятия для всех спортсменов. Регистрация открыта!{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Турниры",
+  "description": "Спортивные мероприятия для всех спортсменов",
+  "url": "{{ request.url }}",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Благотворительный местный фонд помощи спортсменам",
+    "url": "{{ url_for('index', _external=True) }}"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <section class="page-header">

@@ -1,6 +1,89 @@
 {% extends "base.html" %}
 
-{% block title %}Главная - Благотворительный фонд{% endblock %}
+{% block title %}Благотворительный фонд помощи спортсменам | Поддержка и турниры{% endblock %}
+
+{% block meta_title %}Благотворительный местный фонд помощи спортсменам | Беларусь{% endblock %}
+
+{% block meta_description %}Благотворительный фонд поддержки спортсменов в Беларуси. Помогаем спортсменам достигать целей через сборы средств, организуем спортивные турниры и объединяем волонтеров. Присоединяйтесь!{% endblock %}
+
+{% block meta_keywords %}благотворительный фонд, помощь спортсменам, сборы средств, спортивные турниры, волонтеры, благотворительность Беларусь, поддержка спортсменов{% endblock %}
+
+{% block og_title %}Благотворительный фонд помощи спортсменам | Поддержка и турниры{% endblock %}
+
+{% block og_description %}Помогаем спортсменам достигать целей через сборы средств, организуем турниры и объединяем волонтеров в Беларуси{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Благотворительный местный фонд помощи спортсменам",
+  "url": "{{ request.url_root }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ request.url_root }}search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+{% if fundraisers %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Активные благотворительные сборы",
+  "itemListElement": [
+    {% for fundraiser in fundraisers %}
+    {
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "item": {
+        "@type": "DonateAction",
+        "name": "{{ fundraiser.title }}",
+        "description": "{{ fundraiser.description[:200] }}",
+        "url": "{{ url_for('fundraiser_detail', id=fundraiser.id, _external=True) }}"
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+
+{% if tournaments %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Предстоящие спортивные турниры",
+  "itemListElement": [
+    {% for tournament in tournaments %}
+    {
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "item": {
+        "@type": "SportsEvent",
+        "name": "{{ tournament.title }}",
+        "description": "{{ tournament.description[:200] }}",
+        "startDate": "{{ tournament.date.isoformat() }}",
+        {% if tournament.location %}
+        "location": {
+          "@type": "Place",
+          "name": "{{ tournament.location }}"
+        },
+        {% endif %}
+        "url": "{{ url_for('tournament_detail', id=tournament.id, _external=True) }}",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <section class="hero">

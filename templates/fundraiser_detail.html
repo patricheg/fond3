@@ -1,6 +1,52 @@
 {% extends "base.html" %}
 
-{% block title %}{{ fundraiser.title }} - Сборы{% endblock %}
+{% block title %}{{ fundraiser.title }} - Благотворительный сбор | Фонд помощи спортсменам{% endblock %}
+
+{% block meta_title %}{{ fundraiser.title }} - Благотворительный сбор для {{ fundraiser.athlete_name }}{% endblock %}
+
+{% block meta_description %}{{ fundraiser.description[:160] }}. Поддержите спортсмена {{ fundraiser.athlete_name }}! Собрано {{ "{:,.0f}".format(fundraiser.current_amount) }} из {{ "{:,.0f}".format(fundraiser.goal_amount) }} Br.{% endblock %}
+
+{% block meta_keywords %}благотворительный сбор, помощь спортсмену, {{ fundraiser.athlete_name }}, {{ fundraiser.title }}, донат, поддержка{% endblock %}
+
+{% block og_title %}{{ fundraiser.title }} - Помогите {{ fundraiser.athlete_name }}{% endblock %}
+
+{% block og_description %}{{ fundraiser.description[:200] }}. Собрано {{ fundraiser.progress_percentage() }}% от цели.{% endblock %}
+
+{% set images = fundraiser.get_images() %}
+{% if images %}
+{% block og_image %}{{ images[0] if images[0].startswith('http') else url_for('static', filename=images[0].lstrip('/'), _external=True) }}{% endblock %}
+{% endif %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DonateAction",
+  "name": "{{ fundraiser.title }}",
+  "description": "{{ fundraiser.description|replace('"', '\\"')|replace('\n', ' ') }}",
+  "url": "{{ request.url }}",
+  "recipient": {
+    "@type": "Person",
+    "name": "{{ fundraiser.athlete_name }}"
+  },
+  "priceSpecification": {
+    "@type": "PriceSpecification",
+    "priceCurrency": "BYN",
+    "price": "{{ fundraiser.goal_amount }}"
+  },
+  "amountRaised": {
+    "@type": "MonetaryAmount",
+    "currency": "BYN",
+    "value": "{{ fundraiser.current_amount }}"
+  },
+  "startDate": "{{ fundraiser.created_at.isoformat() }}",
+  {% if fundraiser.deadline %}
+  "endDate": "{{ fundraiser.deadline.isoformat() }}",
+  {% endif %}
+  "image": {% if images %}"{{ images[0] if images[0].startswith('http') else url_for('static', filename=images[0].lstrip('/'), _external=True) }}"{% else %}""{% endif %}
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <section class="detail-page">
@@ -71,9 +117,10 @@
                     <div class="share-section">
                         <p>Поделиться:</p>
                         <div class="share-buttons">
-                            <a href="#" class="share-btn"><i class="fab fa-vk"></i></a>
-                            <a href="#" class="share-btn"><i class="fab fa-telegram"></i></a>
-                            <a href="#" class="share-btn"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://vk.com/share.php?url={{ request.url }}&title={{ fundraiser.title }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в ВКонтакте"><i class="fab fa-vk"></i></a>
+                            <a href="https://t.me/share/url?url={{ request.url }}&text={{ fundraiser.title }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в Telegram"><i class="fab fa-telegram"></i></a>
+                            <a href="https://api.whatsapp.com/send?text={{ fundraiser.title }}%20{{ request.url }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}" target="_blank" rel="noopener" class="share-btn" aria-label="Поделиться в Facebook"><i class="fab fa-facebook"></i></a>
                         </div>
                     </div>
                 </div>
