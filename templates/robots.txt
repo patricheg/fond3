@@ -1,14 +1,14 @@
-# robots.txt для благотворительного фонда помощи спортсменам
+# robots.txt for Charity Sports Fund
 
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-# Sitemap
+# Sitemap location
 Sitemap: {{ url_for('sitemap_xml', _external=True) }}
 
-# Основные поисковые боты
+# Major search engine bots
 User-agent: Googlebot
 Allow: /
 
@@ -18,11 +18,11 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-# Ограничения для админ-панели
+# Admin panel restrictions
 User-agent: *
 Disallow: /admin/*
 Disallow: /login
 Disallow: /logout
 
-# Crawl-delay для вежливости
+# Crawl delay
 Crawl-delay: 1
