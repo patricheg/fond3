@@ -4,8 +4,13 @@
 Миграция для добавления поля category в таблицу fundraiser
 """
 import sys
+import io
 from app import app, db
 from models import Fundraiser
+
+# Настройка вывода для Windows
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def migrate():
     """Добавляет поле category в таблицу fundraiser"""
@@ -16,7 +21,7 @@ def migrate():
             columns = [col['name'] for col in inspector.get_columns('fundraiser')]
             
             if 'category' in columns:
-                print('✓ Поле category уже существует в таблице fundraiser')
+                print('[OK] Поле category уже существует в таблице fundraiser')
                 return True
             
             print('Добавление поля category в таблицу fundraiser...')
@@ -26,7 +31,7 @@ def migrate():
                 conn.execute(db.text('ALTER TABLE fundraiser ADD COLUMN category VARCHAR(100)'))
                 conn.commit()
             
-            print('✓ Поле category успешно добавлено')
+            print('[OK] Поле category успешно добавлено')
             
             # Обновляем существующие записи с категорией по умолчанию
             fundraisers = Fundraiser.query.all()
@@ -37,13 +42,13 @@ def migrate():
                         # Устанавливаем категорию "Второй шанс" по умолчанию
                         fundraiser.category = 'second_chance'
                 db.session.commit()
-                print('✓ Категории обновлены')
+                print('[OK] Категории обновлены')
             
             print('\n=== Миграция успешно завершена! ===\n')
             return True
             
         except Exception as e:
-            print(f'✗ Ошибка при миграции: {str(e)}')
+            print(f'[ERROR] Ошибка при миграции: {str(e)}')
             db.session.rollback()
             return False
 
