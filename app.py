@@ -122,7 +122,8 @@ def fundraisers():
     categories = {
         'future_champion': 'Будущий чемпион — гранты для детей и юношей',
         'second_chance': 'Второй шанс — оплата операций и восстановления',
-        'loyalty_to_sport': 'Верность спорту — поддержка ветеранов и тренеров'
+        'loyalty_to_sport': 'Верность спорту — поддержка ветеранов и тренеров',
+        'strength_spirit_home': 'Дом силы и духа — поддержка спортзалов и клубов'
     }
     
     return render_template('fundraisers.html', 
