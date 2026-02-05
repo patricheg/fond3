@@ -2527,3 +2527,649 @@ body {
         font-size: 1.1rem;
     }
 }
+
+/* ======================
+   РАСШИРЕННЫЙ EMPTY STATE И ДОПОЛНИТЕЛЬНЫЙ КОНТЕНТ
+   ====================== */
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border-radius: var(--border-radius-lg);
+    margin: 2rem 0;
+}
+
+.empty-state > i {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: block;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.empty-state h2 {
+    font-size: 2rem;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.empty-state-message {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+}
+
+.empty-state-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Дополнительный информационный контент */
+.fundraisers-info-section {
+    margin-top: 4rem;
+    padding-top: 4rem;
+    border-top: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.info-block {
+    margin-bottom: 4rem;
+}
+
+.info-block h2 {
+    font-size: 2rem;
+    color: var(--dark-color);
+    margin-bottom: 2rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.info-block h2 i {
+    color: var(--primary-color);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.info-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-hover);
+    border-color: var(--primary-color);
+}
+
+.info-card i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.info-card h3 {
+    font-size: 1.3rem;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.info-card p {
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+/* Trust Section */
+.trust-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.trust-item {
+    display: flex;
+    gap: 1.5rem;
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+}
+
+.trust-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.trust-icon {
+    flex-shrink: 0;
+}
+
+.trust-icon i {
+    font-size: 2.5rem;
+    color: var(--success-color);
+}
+
+.trust-content h3 {
+    font-size: 1.2rem;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.trust-content p {
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* FAQ Section */
+.faq-list {
+    max-width: 900px;
+    margin: 2rem auto 0;
+}
+
+.faq-item {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 1.5rem;
+    transition: var(--transition);
+    border-left: 4px solid var(--primary-color);
+}
+
+.faq-item:hover {
+    box-shadow: var(--box-shadow-hover);
+    transform: translateX(5px);
+}
+
+.faq-item h3 {
+    font-size: 1.2rem;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.faq-item h3:before {
+    content: "Q";
+    background: var(--primary-color);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.faq-item p {
+    color: var(--text-light);
+    line-height: 1.8;
+    padding-left: 38px;
+}
+
+/* Final CTA */
+.cta-final {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 4rem 2rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.cta-final h2 {
+    color: white;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.cta-final h2 i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.cta-lead {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.8;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-buttons .btn {
+    min-width: 200px;
+}
+
+.cta-buttons .btn-primary {
+    background: white;
+    color: var(--primary-color);
+}
+
+.cta-buttons .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-3px);
+}
+
+.cta-buttons .btn-outline {
+    border-color: white;
+    color: white;
+}
+
+.cta-buttons .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.cta-buttons .btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.cta-buttons .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+}
+
+/* Кнопка accent для email */
+.btn-accent {
+    background: var(--warm-gradient);
+    color: white;
+}
+
+.btn-accent:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+}
+
+/* Адаптивность для нового контента */
+@media (max-width: 768px) {
+    .empty-state {
+        padding: 3rem 1.5rem;
+    }
+    
+    .empty-state h2 {
+        font-size: 1.5rem;
+    }
+    
+    .empty-state-message {
+        font-size: 1rem;
+    }
+    
+    .empty-state-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .empty-state-buttons .btn {
+        width: 100%;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .trust-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .trust-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .trust-icon {
+        margin: 0 auto;
+    }
+    
+    .faq-item {
+        padding: 1.5rem;
+    }
+    
+    .faq-item p {
+        padding-left: 0;
+    }
+    
+    .cta-final {
+        padding: 3rem 1.5rem;
+    }
+    
+    .cta-final h2 {
+        font-size: 1.8rem;
+    }
+    
+    .cta-lead {
+        font-size: 1rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .cta-buttons .btn {
+        width: 100%;
+    }
+    
+    .fundraisers-info-section {
+        margin-top: 3rem;
+        padding-top: 3rem;
+    }
+    
+    .info-block h2 {
+        font-size: 1.5rem;
+        flex-direction: column;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+/* ======================
+   БЛОКИ НА ГЛАВНОЙ СТРАНИЦЕ
+   ====================== */
+
+/* Секция "Почему важно поддерживать" на главной */
+.why-support-section {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+    padding: 4rem 0;
+}
+
+.why-support-section .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+}
+
+.why-support-section .section-title i {
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
+/* Секция доверия на главной */
+.trust-section-home {
+    background: white;
+    padding: 4rem 0;
+}
+
+.trust-section-home .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+}
+
+.trust-section-home .section-title i {
+    color: var(--success-color);
+    font-size: 2rem;
+}
+
+/* FAQ на главной - компактная сетка */
+.faq-section-home {
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.05) 0%, rgba(0, 242, 254, 0.05) 100%);
+    padding: 4rem 0;
+}
+
+.faq-section-home .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+}
+
+.faq-section-home .section-title i {
+    color: var(--accent-color);
+    font-size: 2rem;
+}
+
+.faq-compact-list {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+}
+
+.faq-compact-item {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    transition: var(--transition-fast);
+}
+
+.faq-compact-item:last-child {
+    border-bottom: none;
+}
+
+.faq-compact-item:hover {
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.03) 0%, rgba(0, 242, 254, 0.03) 100%);
+}
+
+.faq-compact-item h3 {
+    font-size: 1.1rem;
+    color: var(--dark-color);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+}
+
+.faq-compact-item h3 i {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.faq-compact-item p {
+    color: var(--text-light);
+    line-height: 1.7;
+    margin: 0;
+    padding-left: 2rem;
+}
+
+/* Финальный CTA на главной */
+.cta-home {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0;
+    margin-top: 0;
+}
+
+.cta-home-content {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: white;
+}
+
+.cta-home-content > i {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    animation: pulse 2s ease-in-out infinite;
+    opacity: 0.9;
+}
+
+.cta-home-content h2 {
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.cta-home-content p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.8;
+}
+
+.cta-home .cta-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-home .btn {
+    min-width: 220px;
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+}
+
+.cta-home .btn-primary {
+    background: white;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.cta-home .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.cta-home .btn-outline {
+    border: 2px solid white;
+    color: white;
+    background: transparent;
+}
+
+.cta-home .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Адаптивность для блоков главной */
+@media (max-width: 768px) {
+    .why-support-section,
+    .trust-section-home,
+    .faq-section-home {
+        padding: 3rem 0;
+    }
+    
+    .why-support-section .section-title,
+    .trust-section-home .section-title,
+    .faq-section-home .section-title {
+        font-size: 1.5rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .why-support-section .section-title i,
+    .trust-section-home .section-title i,
+    .faq-section-home .section-title i {
+        font-size: 1.8rem;
+    }
+    
+    .faq-compact-item {
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .faq-compact-item h3 {
+        font-size: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .faq-compact-item p {
+        padding-left: 0;
+        font-size: 0.9rem;
+    }
+    
+    .cta-home-content {
+        padding: 3rem 1.5rem;
+    }
+    
+    .cta-home-content > i {
+        font-size: 3rem;
+    }
+    
+    .cta-home-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .cta-home-content p {
+        font-size: 1.1rem;
+    }
+    
+    .cta-home .cta-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .cta-home .btn {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-compact-item {
+        padding: 1rem 1rem;
+    }
+    
+    .faq-compact-item h3 {
+        font-size: 0.95rem;
+    }
+    
+    .faq-compact-item h3 i {
+        font-size: 1rem;
+    }
+    
+    .cta-home-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .cta-home-content p {
+        font-size: 1rem;
+    }
+}
