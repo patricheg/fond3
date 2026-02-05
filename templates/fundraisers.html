@@ -39,6 +39,32 @@
 
 <section class="section">
     <div class="container">
+        <!-- Фильтры по категориям -->
+        <div class="category-filters">
+            <a href="{{ url_for('fundraisers') }}" class="category-filter {% if not selected_category %}active{% endif %}">
+                <i class="fas fa-th"></i>
+                <span>Все категории</span>
+            </a>
+            {% for cat_key, cat_name in categories.items() %}
+            <a href="{{ url_for('fundraisers', category=cat_key) }}" class="category-filter {% if selected_category == cat_key %}active{% endif %}">
+                {% if cat_key == 'future_champion' %}
+                    <i class="fas fa-star"></i>
+                {% elif cat_key == 'second_chance' %}
+                    <i class="fas fa-heartbeat"></i>
+                {% else %}
+                    <i class="fas fa-medal"></i>
+                {% endif %}
+                <span>{{ cat_name.split('—')[0].strip() }}</span>
+            </a>
+            {% endfor %}
+        </div>
+
+        {% if selected_category %}
+        <div class="category-description">
+            <h2>{{ categories[selected_category] }}</h2>
+        </div>
+        {% endif %}
+
         {% if fundraisers %}
         <div class="cards-grid">
             {% for fundraiser in fundraisers %}
@@ -67,6 +93,17 @@
                 </div>
                 {% endif %}
                 <div class="card-content">
+                    {% if fundraiser.category %}
+                    <div class="card-category">
+                        {% if fundraiser.category == 'future_champion' %}
+                            <i class="fas fa-star"></i> Будущий чемпион
+                        {% elif fundraiser.category == 'second_chance' %}
+                            <i class="fas fa-heartbeat"></i> Второй шанс
+                        {% elif fundraiser.category == 'loyalty_to_sport' %}
+                            <i class="fas fa-medal"></i> Верность спорту
+                        {% endif %}
+                    </div>
+                    {% endif %}
                     <h3>{{ fundraiser.title }}</h3>
                     <p class="card-athlete">{{ fundraiser.athlete_name }}</p>
                     <p class="card-description">{{ fundraiser.description[:200] }}...</p>

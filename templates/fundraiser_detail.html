@@ -77,6 +77,18 @@
                 </div>
                 {% endif %}
                 
+                {% if fundraiser.category %}
+                <div class="card-category" style="margin-bottom: 1rem;">
+                    {% if fundraiser.category == 'future_champion' %}
+                        <i class="fas fa-star"></i> Будущий чемпион — гранты для детей и юношей
+                    {% elif fundraiser.category == 'second_chance' %}
+                        <i class="fas fa-heartbeat"></i> Второй шанс — оплата операций и восстановления
+                    {% elif fundraiser.category == 'loyalty_to_sport' %}
+                        <i class="fas fa-medal"></i> Верность спорту — поддержка ветеранов и тренеров
+                    {% endif %}
+                </div>
+                {% endif %}
+                
                 <h1>{{ fundraiser.title }}</h1>
                 
                 <div class="detail-meta">

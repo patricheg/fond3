@@ -152,6 +152,17 @@
                 </div>
                 {% endif %}
                 <div class="card-content">
+                    {% if fundraiser.category %}
+                    <div class="card-category">
+                        {% if fundraiser.category == 'future_champion' %}
+                            <i class="fas fa-star"></i> Будущий чемпион
+                        {% elif fundraiser.category == 'second_chance' %}
+                            <i class="fas fa-heartbeat"></i> Второй шанс
+                        {% elif fundraiser.category == 'loyalty_to_sport' %}
+                            <i class="fas fa-medal"></i> Верность спорту
+                        {% endif %}
+                    </div>
+                    {% endif %}
                     <h3>{{ fundraiser.title }}</h3>
                     <p class="card-athlete">{{ fundraiser.athlete_name }}</p>
                     <p class="card-description">{{ fundraiser.description[:150] }}...</p>

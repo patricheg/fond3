@@ -31,6 +31,7 @@ class Fundraiser(db.Model):
     current_amount = db.Column(db.Float, default=0.0)
     image_url = db.Column(db.String(300))  # Оставляем для обратной совместимости
     images_json = db.Column(db.Text)  # JSON список всех изображений
+    category = db.Column(db.String(100))  # Категория сбора
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

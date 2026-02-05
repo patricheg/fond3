@@ -107,9 +107,28 @@ def index():
 
 @app.route('/fundraisers')
 def fundraisers():
-    """Страница всех сборов"""
-    all_fundraisers = Fundraiser.query.filter_by(is_active=True).order_by(Fundraiser.created_at.desc()).all()
-    return render_template('fundraisers.html', fundraisers=all_fundraisers)
+    """Страница всех сборов с фильтрацией по категориям"""
+    category = request.args.get('category', '')
+    
+    query = Fundraiser.query.filter_by(is_active=True)
+    
+    # Фильтрация по категории
+    if category:
+        query = query.filter_by(category=category)
+    
+    all_fundraisers = query.order_by(Fundraiser.created_at.desc()).all()
+    
+    # Категории для фильтра
+    categories = {
+        'future_champion': 'Будущий чемпион — гранты для детей и юношей',
+        'second_chance': 'Второй шанс — оплата операций и восстановления',
+        'loyalty_to_sport': 'Верность спорту — поддержка ветеранов и тренеров'
+    }
+    
+    return render_template('fundraisers.html', 
+                         fundraisers=all_fundraisers, 
+                         categories=categories,
+                         selected_category=category)
 
 
 @app.route('/fundraiser/<int:id>')
@@ -309,6 +328,7 @@ def admin_add_fundraiser():
             athlete_name=request.form['athlete_name'],
             goal_amount=float(request.form['goal_amount']),
             current_amount=float(request.form.get('current_amount', 0)),
+            category=request.form.get('category'),
             is_active=request.form.get('is_active') == 'on'
         )
         fundraiser.set_images(images_list)
@@ -355,6 +375,7 @@ def admin_edit_fundraiser(id):
         fundraiser.athlete_name = request.form['athlete_name']
         fundraiser.goal_amount = float(request.form['goal_amount'])
         fundraiser.current_amount = float(request.form.get('current_amount', 0))
+        fundraiser.category = request.form.get('category')
         fundraiser.is_active = request.form.get('is_active') == 'on'
         fundraiser.set_images(new_images_list)
         

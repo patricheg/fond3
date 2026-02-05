@@ -24,6 +24,22 @@
             <textarea id="description" name="description" class="form-control" rows="10" required>{{ fundraiser.description if fundraiser else '' }}</textarea>
         </div>
 
+        <div class="form-group">
+            <label for="category">Категория *</label>
+            <select id="category" name="category" class="form-control" required>
+                <option value="">-- Выберите категорию --</option>
+                <option value="future_champion" {% if fundraiser and fundraiser.category == 'future_champion' %}selected{% endif %}>
+                    Будущий чемпион — гранты для детей и юношей
+                </option>
+                <option value="second_chance" {% if fundraiser and fundraiser.category == 'second_chance' %}selected{% endif %}>
+                    Второй шанс — оплата операций и восстановления
+                </option>
+                <option value="loyalty_to_sport" {% if fundraiser and fundraiser.category == 'loyalty_to_sport' %}selected{% endif %}>
+                    Верность спорту — поддержка ветеранов и тренеров
+                </option>
+            </select>
+        </div>
+
         <div class="form-row">
             <div class="form-group">
                 <label for="goal_amount">Целевая сумма (Br) *</label>
