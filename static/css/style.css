@@ -2013,6 +2013,17 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
+.footer-section p a {
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section p a:hover {
+    color: #2196f3;
+    text-decoration: underline;
+}
+
 .footer-section i {
     margin-right: 0.8rem;
     background: var(--primary-gradient);

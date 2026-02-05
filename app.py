@@ -33,6 +33,15 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+# ==================== CONTEXT PROCESSORS ====================
+
+@app.context_processor
+def inject_contact_info():
+    """Внедрение контактной информации во все шаблоны"""
+    contact_info = ContactInfo.query.first()
+    return dict(contact_info=contact_info)
+
+
 # ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
 
 def allowed_file(filename):
@@ -909,6 +918,22 @@ def init_db():
             db.session.add(admin)
             db.session.commit()
             print('Создан пользователь admin с безопасным паролем')
+        
+        # Создаем контактную информацию по умолчанию, если её нет
+        if not ContactInfo.query.first():
+            contact_info = ContactInfo(
+                phone='+375 (XX) XXX-XX-XX',
+                email='info@sportfund.by',
+                telegram='',
+                viber='',
+                whatsapp='',
+                vk='',
+                instagram='',
+                additional_info='Обновите контактную информацию в админ-панели'
+            )
+            db.session.add(contact_info)
+            db.session.commit()
+            print('Создана контактная информация по умолчанию')
 
 
 if __name__ == '__main__':
