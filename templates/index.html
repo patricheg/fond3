@@ -93,7 +93,7 @@
             <p>Вместе мы можем изменить жизни людей к лучшему</p>
             <div class="hero-buttons">
                 <a href="{{ url_for('fundraisers') }}" class="btn btn-primary">Поддержать сбор</a>
-                <a href="{{ url_for('tournaments') }}" class="btn btn-secondary">Наши турниры</a>
+                <a href="{{ url_for('our_people') }}" class="btn btn-secondary">Наши волонтеры</a>
             </div>
         </div>
     </div>
@@ -108,12 +108,12 @@
                 <p class="stat-number">{{ fundraisers|length }}</p>
             </div>
             <div class="stat-card">
-                <i class="fas fa-trophy"></i>
-                <h3>Турниров проведено</h3>
-                <p class="stat-number">{{ tournaments|length }}</p>
+                <i class="fas fa-users"></i>
+                <h3>Наших волонтеров</h3>
+                <p class="stat-number">{{ volunteers|length }}</p>
             </div>
             <div class="stat-card">
-                <i class="fas fa-users"></i>
+                <i class="fas fa-heart"></i>
                 <h3>Спортсменов поддержано</h3>
                 <p class="stat-number">150+</p>
             </div>
@@ -227,60 +227,6 @@
 </section>
 {% endif %}
 
-{% if tournaments %}
-<section class="section bg-light">
-    <div class="container">
-        <h2 class="section-title">Предстоящие турниры</h2>
-        <div class="cards-grid">
-            {% for tournament in tournaments %}
-            <div class="card">
-                {% set images = tournament.get_images() %}
-                {% if images %}
-                    {% if images|length > 1 %}
-                    <div class="card-image-slider">
-                        {% for image_url in images %}
-                        <img src="{{ image_url }}" alt="{{ tournament.title }}" class="card-image slider-image" data-slider-index="{{ loop.index0 }}">
-                        {% endfor %}
-                        <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
-                        <div class="slider-dots">
-                            {% for image_url in images %}
-                            <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% else %}
-                    <img src="{{ images[0] }}" alt="{{ tournament.title }}" class="card-image">
-                    {% endif %}
-                {% else %}
-                <div class="card-image-placeholder">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                {% endif %}
-                <div class="card-content">
-                    <h3><a href="{{ url_for('tournament_detail', id=tournament.id) }}" class="card-title-link">{{ tournament.title }}</a></h3>
-                    <p class="card-meta">
-                        <i class="fas fa-calendar"></i> {{ tournament.date.strftime('%d.%m.%Y %H:%M') }}
-                    </p>
-                    {% if tournament.location %}
-                    <p class="card-meta">
-                        <i class="fas fa-map-marker-alt"></i> {{ tournament.location }}
-                    </p>
-                    {% endif %}
-                    <p class="card-description">{{ tournament.description[:120] }}...</p>
-                    <a href="{{ url_for('tournament_detail', id=tournament.id) }}" class="btn btn-primary">
-                        <i class="fas fa-info-circle"></i> Подробнее
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="section-footer">
-            <a href="{{ url_for('tournaments') }}" class="btn btn-outline">Все турниры</a>
-        </div>
-    </div>
-</section>
-{% endif %}
 
 {% if news %}
 <section class="section">
