@@ -30,7 +30,10 @@
     <meta property="twitter:image" content="{% block twitter_image %}{{ url_for('static', filename='images/og-image.jpg', _external=True) }}{% endblock %}">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/categories.css') }}">
@@ -42,8 +45,7 @@
     <nav class="navbar">
         <div class="container">
             <a href="{{ url_for('index') }}" class="logo">
-                <i class="fas fa-heart"></i>
-                <span>Благотворительный местный фонд помощи спортсменам</span>
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Благотворительный местный фонд помощи спортсменам" class="logo-img">
             </a>
             <ul class="nav-menu">
                 <li><a href="{{ url_for('index') }}">Главная</a></li>
