@@ -196,9 +196,6 @@
                     {% endif %}
                     <h3>{{ fundraiser.title }}</h3>
                     <p class="card-athlete">{{ fundraiser.athlete_name }}</p>
-                    <div class="card-description article-content">
-                        {{ fundraiser.description|safe }}
-                    </div>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: {{ fundraiser.progress_percentage() }}%"></div>
                     </div>
