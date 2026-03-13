@@ -88,6 +88,25 @@ def delete_image(image_url):
                 print(f"Ошибка при удалении файла: {e}")
 
 
+@app.route('/admin/upload-image', methods=['POST'])
+@login_required
+def admin_upload_image():
+    """
+    Загрузка изображения из редактора (например, CKEditor/TinyMCE).
+    Ожидает файл в поле 'upload' или 'file' и возвращает JSON с URL.
+    """
+    file = request.files.get('upload') or request.files.get('file')
+    if not file or not file.filename:
+        return jsonify({'error': 'Файл не найден'}), 400
+    
+    image_url = save_image(file)
+    if not image_url:
+        return jsonify({'error': 'Неверный формат файла'}), 400
+    
+    # CKEditor ожидает поле 'url', TinyMCE — 'location'
+    return jsonify({'url': image_url, 'location': image_url})
+
+
 # ==================== ПУБЛИЧНЫЕ МАРШРУТЫ ====================
 
 @app.route('/')
@@ -249,6 +268,12 @@ def our_people():
     """Страница Волонтеры"""
     people = OurPeople.query.filter_by(is_active=True).order_by(OurPeople.order_position, OurPeople.created_at.desc()).all()
     return render_template('our_people.html', people=people)
+
+
+@app.route('/donate')
+def donate():
+    """Страница с QR-кодом для пожертвований"""
+    return render_template('donate_qr.html')
 
 
 # ==================== АДМИН-ПАНЕЛЬ ====================

@@ -3126,6 +3126,44 @@ body {
     }
 }
 
+/* ======================
+   ВСТРОЕННЫЕ КАРТИНКИ В ТЕКСТЕ (WYSIWYG)
+   ====================== */
+
+.article-content img,
+.text-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin: 1rem 0;
+}
+
+.img-align-left {
+    float: left;
+    margin: 0.5rem 1.5rem 1rem 0;
+    max-width: 45%;
+}
+
+.img-align-right {
+    float: right;
+    margin: 0.5rem 0 1rem 1.5rem;
+    max-width: 45%;
+}
+
+.img-align-center {
+    display: block;
+    margin: 1.5rem auto;
+    text-align: center;
+}
+
+.article-content::after,
+.text-content::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
 @media (max-width: 480px) {
     .faq-compact-item {
         padding: 1rem 1rem;

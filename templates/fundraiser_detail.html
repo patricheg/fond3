@@ -13,9 +13,13 @@
 {% block og_description %}{{ fundraiser.description[:200] }}. Собрано {{ fundraiser.progress_percentage() }}% от цели.{% endblock %}
 
 {% set images = fundraiser.get_images() %}
-{% if images %}
-{% block og_image %}{{ images[0] if images[0].startswith('http') else url_for('static', filename=images[0].lstrip('/'), _external=True) }}{% endblock %}
-{% endif %}
+{% block og_image %}
+    {% if images and images|length > 0 %}
+        {{ images[0] if images[0].startswith('http') else url_for('static', filename=images[0].lstrip('/'), _external=True) }}
+    {% else %}
+        {{ url_for('static', filename='images/og-image.jpg', _external=True) }}
+    {% endif %}
+{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
@@ -98,8 +102,8 @@
                     <span><i class="fas fa-calendar"></i> {{ fundraiser.created_at.strftime('%d.%m.%Y') }}</span>
                 </div>
                 
-                <div class="detail-content">
-                    <p style="white-space: pre-line;">{{ fundraiser.description }}</p>
+                <div class="detail-content article-content">
+                    {{ fundraiser.description|safe }}
                 </div>
             </div>
             

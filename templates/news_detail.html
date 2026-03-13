@@ -83,7 +83,7 @@
             {% endif %}
             
             <div class="article-content">
-                <p style="white-space: pre-line;">{{ news.content }}</p>
+                {{ news.content|safe }}
             </div>
             
             <div class="article-footer">

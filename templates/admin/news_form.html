@@ -24,7 +24,8 @@
 
         <div class="form-group">
             <label for="content">Содержание *</label>
-            <textarea id="content" name="content" class="form-control" rows="15" required>{{ news.content if news else '' }}</textarea>
+            <textarea id="content" name="content" class="form-control wysiwyg" rows="15" required>{{ news.content if news else '' }}</textarea>
+            <small class="form-text">Вы можете форматировать текст, вставлять изображения и задавать обтекание (по левому/правому краю, по центру).</small>
         </div>
 
         <div class="form-group">
@@ -79,4 +80,27 @@
         </div>
     </form>
 </div>
+<script src="https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('content', {
+        language: 'ru',
+        height: 400,
+        extraPlugins: 'image2,justify',
+        removePlugins: 'image',
+        filebrowserUploadUrl: '{{ url_for("admin_upload_image") }}',
+        filebrowserUploadMethod: 'form',
+        toolbar: [
+            { name: 'clipboard', items: ['Undo', 'Redo'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
+            { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
+            { name: 'links', items: ['Link', 'Unlink'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        contentsCss: ['{{ url_for("static", filename="css/style.css") }}'],
+        image2_alignClasses: ['img-align-left', 'img-align-center', 'img-align-right'],
+        image2_disableResizer: false
+    });
+</script>
 {% endblock %}

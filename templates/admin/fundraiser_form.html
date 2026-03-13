@@ -21,7 +21,8 @@
 
         <div class="form-group">
             <label for="description">Описание *</label>
-            <textarea id="description" name="description" class="form-control" rows="10" required>{{ fundraiser.description if fundraiser else '' }}</textarea>
+            <textarea id="description" name="description" class="form-control wysiwyg" rows="10" required>{{ fundraiser.description if fundraiser else '' }}</textarea>
+            <small class="form-text">Можно форматировать текст, вставлять изображения и задавать обтекание (слева/справа/по центру).</small>
         </div>
 
         <div class="form-group">
@@ -111,4 +112,27 @@
         </div>
     </form>
 </div>
+<script src="https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('description', {
+        language: 'ru',
+        height: 350,
+        extraPlugins: 'image2,justify',
+        removePlugins: 'image',
+        filebrowserUploadUrl: '{{ url_for("admin_upload_image") }}',
+        filebrowserUploadMethod: 'form',
+        toolbar: [
+            { name: 'clipboard', items: ['Undo', 'Redo'] },
+            { name: 'styles', items: ['Format', 'FontSize'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
+            { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
+            { name: 'links', items: ['Link', 'Unlink'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        contentsCss: ['{{ url_for("static", filename="css/style.css") }}'],
+        image2_alignClasses: ['img-align-left', 'img-align-center', 'img-align-right'],
+        image2_disableResizer: false
+    });
+</script>
 {% endblock %}
