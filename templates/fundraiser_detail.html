@@ -147,14 +147,23 @@
     </div>
 </section>
 
-<!-- Модальное окно с контактами -->
+<!-- Модальное окно с QR-кодом для помощи -->
 <div id="contactModal" class="contact-modal" onclick="closeContactModal(event)">
     <div class="contact-modal-content" onclick="event.stopPropagation()">
         <span class="contact-modal-close" onclick="closeContactModal(event)">&times;</span>
-        <h2><i class="fas fa-hand-holding-heart"></i> Как помочь</h2>
-        <p class="contact-modal-description">Свяжитесь с нами любым удобным способом, и мы расскажем, как вы можете поддержать этот сбор:</p>
-        
-        {% if contact_info %}
+        <h2><i class="fas fa-hand-holding-heart"></i> Помочь через QR-код</h2>
+        <p class="contact-modal-description">
+            Откройте приложение вашего банка, выберите оплату по QR-коду и наведите камеру на изображение ниже.
+        </p>
+
+        <div style="text-align:center; margin: 1.5rem 0;">
+            <img src="{{ url_for('static', filename='images/donate-qr.png') }}" alt="QR-код для пожертвования" style="max-width:260px; width:100%; height:auto; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15);">
+        </div>
+
+        {% if contact_info and (contact_info.phone or contact_info.email) %}
+        <p class="contact-modal-description" style="margin-top: 0;">
+            Если у вас возникли вопросы по оплате или вы хотите помочь другим способом, свяжитесь с нами:
+        </p>
         <div class="contact-methods">
             {% if contact_info.phone %}
             <div class="contact-item">
@@ -165,7 +174,6 @@
                 </div>
             </div>
             {% endif %}
-            
             {% if contact_info.email %}
             <div class="contact-item">
                 <i class="fas fa-envelope"></i>
@@ -175,69 +183,7 @@
                 </div>
             </div>
             {% endif %}
-            
-            {% if contact_info.telegram %}
-            <div class="contact-item">
-                <i class="fab fa-telegram"></i>
-                <div class="contact-info-text">
-                    <strong>Telegram:</strong>
-                    <a href="https://t.me/{{ contact_info.telegram }}" target="_blank">{{ contact_info.telegram }}</a>
-                </div>
-            </div>
-            {% endif %}
-            
-            {% if contact_info.viber %}
-            <div class="contact-item">
-                <i class="fab fa-viber"></i>
-                <div class="contact-info-text">
-                    <strong>Viber:</strong>
-                    <a href="viber://chat?number={{ contact_info.viber }}">{{ contact_info.viber }}</a>
-                </div>
-            </div>
-            {% endif %}
-            
-            {% if contact_info.whatsapp %}
-            <div class="contact-item">
-                <i class="fab fa-whatsapp"></i>
-                <div class="contact-info-text">
-                    <strong>WhatsApp:</strong>
-                    <a href="https://wa.me/{{ contact_info.whatsapp }}" target="_blank">{{ contact_info.whatsapp }}</a>
-                </div>
-            </div>
-            {% endif %}
-            
-            {% if contact_info.vk %}
-            <div class="contact-item">
-                <i class="fab fa-vk"></i>
-                <div class="contact-info-text">
-                    <strong>ВКонтакте:</strong>
-                    <a href="{{ contact_info.vk }}" target="_blank">Наша группа</a>
-                </div>
-            </div>
-            {% endif %}
-            
-            {% if contact_info.instagram %}
-            <div class="contact-item">
-                <i class="fab fa-instagram"></i>
-                <div class="contact-info-text">
-                    <strong>Instagram:</strong>
-                    <a href="{{ contact_info.instagram }}" target="_blank">{{ contact_info.instagram }}</a>
-                </div>
-            </div>
-            {% endif %}
-            
-            {% if contact_info.additional_info %}
-            <div class="contact-item full-width">
-                <i class="fas fa-info-circle"></i>
-                <div class="contact-info-text">
-                    <strong>Дополнительная информация:</strong>
-                    <p>{{ contact_info.additional_info }}</p>
-                </div>
-            </div>
-            {% endif %}
         </div>
-        {% else %}
-        <p class="no-contacts">Контактная информация временно недоступна. Попробуйте позже.</p>
         {% endif %}
         
         <button class="btn btn-outline btn-block" onclick="closeContactModal(event)">Закрыть</button>
