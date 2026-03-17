@@ -151,13 +151,19 @@
 <div id="contactModal" class="contact-modal" onclick="closeContactModal(event)">
     <div class="contact-modal-content" onclick="event.stopPropagation()">
         <span class="contact-modal-close" onclick="closeContactModal(event)">&times;</span>
-        <h2><i class="fas fa-hand-holding-heart"></i> Помочь через QR-код</h2>
+        <h2><i class="fas fa-hand-holding-heart"></i> Мы работаем с сервисом E-POS</h2>
         <p class="contact-modal-description">
-            Откройте приложение вашего банка, выберите оплату по QR-коду и наведите камеру на изображение ниже.
+            В дереве ЕРИП выберите услугу
+            <br>«E-POS - оплата товаров и услуг»
+            <br>и введите лицевой счет:
         </p>
 
-        <div style="text-align:center; margin: 1.5rem 0;">
-            <img src="{{ url_for('static', filename='images/donate-qr.png') }}" alt="QR-код для пожертвования" style="max-width:260px; width:100%; height:auto; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15);">
+        <p style="text-align:center; font-weight:900; font-size:1.8rem; margin: 1rem 0 1.25rem;">
+            38073-1-1
+        </p>
+
+        <div style="text-align:center; margin: 1.25rem 0 1.5rem;">
+            <img src="{{ url_for('static', filename='images/donate-qr.png') }}" alt="QR-код для пожертвования" style="max-width:260px; width:100%; height:auto; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15); background: rgba(255,255,255,0.92); padding: 10px;">
         </div>
 
         {% if contact_info and (contact_info.phone or contact_info.email) %}

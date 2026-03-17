@@ -9,33 +9,37 @@
 <section class="section donate-qr-page">
     <div class="container">
         <h1 class="section-title">Я хочу помочь</h1>
-        <p>
-            На этой странице вы можете совершить добровольное пожертвование фонду помощи спортсменам.
-            Откройте приложение вашего банка, выберите оплату по QR-коду и наведите камеру на изображение ниже.
-        </p>
 
         <div class="donate-qr-block">
             <div class="donate-qr-card">
-                <h2>Пожертвование через QR-код</h2>
+                <h2>Мы работаем с сервисом E-POS</h2>
                 <p class="donate-qr-subtitle">
-                    Отсканируйте QR-код в приложении вашего банка и введите сумму пожертвования.
+                    В дереве ЕРИП выберите услугу<br>
+                    «E-POS - оплата товаров и услуг»<br>
+                    и введите лицевой счет:
                 </p>
 
-                <div class="donate-qr-image-wrapper">
-                    <!-- Замените donate-qr.png на ваш реальный QR-код в static/images -->
-                    <img src="{{ url_for('static', filename='images/donate-qr.png') }}" alt="QR-код для пожертвования" class="donate-qr-image">
-                </div>
+                <p style="text-align:center; font-weight:900; font-size:1.6rem; margin: 1rem 0 1.5rem;">
+                    38073-1-1
+                </p>
 
-                <div class="donate-qr-help">
-                    <h3>Как совершить платёж:</h3>
-                    <ol>
-                        <li>Откройте приложение вашего банка на телефоне.</li>
-                        <li>Выберите пункт «Оплата по QR» или «Сканировать QR».</li>
-                        <li>Наведите камеру на QR-код на этой странице.</li>
-                        <li>Проверьте реквизиты получателя и введите сумму пожертвования.</li>
-                        <li>Подтвердите платёж.</li>
-                    </ol>
+                {% if contact_info and (contact_info.phone or contact_info.email) %}
+                <div class="donate-qr-help" style="margin-top: 1.5rem;">
+                    <h3>Контакты</h3>
+                    {% if contact_info.phone %}
+                    <p style="margin: 0.5rem 0;">
+                        <strong>Телефон:</strong>
+                        <a href="tel:{{ contact_info.phone }}">{{ contact_info.phone }}</a>
+                    </p>
+                    {% endif %}
+                    {% if contact_info.email %}
+                    <p style="margin: 0.5rem 0;">
+                        <strong>Email:</strong>
+                        <a href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a>
+                    </p>
+                    {% endif %}
                 </div>
+                {% endif %}
             </div>
 
             <div class="donate-qr-info">
