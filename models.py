@@ -177,6 +177,19 @@ class ContactInfo(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
+class HomePage(db.Model):
+    """Модель главной страницы (singleton)"""
+    id = db.Column(db.Integer, primary_key=True)
+    tagline = db.Column(db.String(200), default='Быть рядом, когда это важно')
+    title = db.Column(db.String(300), default='Местный Благотворительный Фонд Помощи Спортсменам')
+    left_item_1 = db.Column(db.String(120), default='Помощь ветеранам и тренерам')
+    left_item_2 = db.Column(db.String(120), default='Помощь молодым спортсменам')
+    left_item_3 = db.Column(db.String(120), default='Помощь спортсменам и клубам')
+    left_item_4 = db.Column(db.String(120), default='Помощь спортсменам в реабилитации')
+    hero_image_url = db.Column(db.String(300))  # /static/uploads/... или внешний URL
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
 class OurPeople(db.Model):
     """Модель для людей и организаций, участвующих в благотворительности"""
     id = db.Column(db.Integer, primary_key=True)

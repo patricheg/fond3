@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, make_response
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from models import db, User, Fundraiser, News, Tournament, AboutPage, ContactInfo, OurPeople, TournamentRegistration
+from models import db, User, Fundraiser, News, Tournament, AboutPage, ContactInfo, HomePage, OurPeople, TournamentRegistration
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
@@ -112,16 +112,18 @@ def admin_upload_image():
 @app.route('/')
 def index():
     """Главная страница"""
+    homepage = HomePage.query.first()
+    if not homepage:
+        homepage = HomePage()
+        db.session.add(homepage)
+        db.session.commit()
+
     latest_news = News.query.filter_by(is_published=True).order_by(News.created_at.desc()).limit(3).all()
     active_fundraisers = Fundraiser.query.filter_by(is_active=True).order_by(Fundraiser.created_at.desc()).limit(3).all()
     upcoming_tournaments = Tournament.query.filter_by(is_active=True).filter(Tournament.date >= datetime.utcnow()).order_by(Tournament.date).limit(3).all()
     volunteers = OurPeople.query.filter_by(is_active=True).order_by(OurPeople.order_position, OurPeople.created_at.desc()).all()
     
-    return render_template('index.html', 
-                         news=latest_news, 
-                         fundraisers=active_fundraisers,
-                         tournaments=upcoming_tournaments,
-                         volunteers=volunteers)
+    return render_template('landing_image_only.html', homepage=homepage)
 
 
 @app.route('/fundraisers')
@@ -775,6 +777,51 @@ def admin_edit_contacts():
     db.session.commit()
     flash('Контактная информация успешно обновлена!', 'success')
     return redirect(url_for('admin_contacts'))
+
+
+# ==================== АДМИН: ГЛАВНАЯ СТРАНИЦА ====================
+
+@app.route('/admin/homepage')
+@login_required
+def admin_homepage():
+    """Редактирование главной страницы"""
+    homepage = HomePage.query.first()
+    if not homepage:
+        homepage = HomePage()
+        db.session.add(homepage)
+        db.session.commit()
+    return render_template('admin/homepage_form.html', homepage=homepage)
+
+
+@app.route('/admin/homepage/edit', methods=['POST'])
+@login_required
+def admin_edit_homepage():
+    """Сохранение изменений главной страницы"""
+    homepage = HomePage.query.first()
+    if not homepage:
+        homepage = HomePage()
+        db.session.add(homepage)
+
+    homepage.tagline = request.form.get('tagline', homepage.tagline or '')
+    homepage.title = request.form.get('title', homepage.title or '')
+    homepage.left_item_1 = request.form.get('left_item_1', homepage.left_item_1 or '')
+    homepage.left_item_2 = request.form.get('left_item_2', homepage.left_item_2 or '')
+    homepage.left_item_3 = request.form.get('left_item_3', homepage.left_item_3 or '')
+    homepage.left_item_4 = request.form.get('left_item_4', homepage.left_item_4 or '')
+
+    if request.form.get('hero_image_url'):
+        homepage.hero_image_url = request.form.get('hero_image_url')
+
+    if 'hero_image_file' in request.files:
+        file = request.files.get('hero_image_file')
+        if file and file.filename:
+            hero_url = save_image(file)
+            if hero_url:
+                homepage.hero_image_url = hero_url
+
+    db.session.commit()
+    flash('Главная страница обновлена!', 'success')
+    return redirect(url_for('admin_homepage'))
 
 
 # ==================== АДМИН: НАШИ ЛЮДИ ====================

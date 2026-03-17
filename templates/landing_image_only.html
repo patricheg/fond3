@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Главная</title>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { background: #000; }
+    .wrap {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .stage {
+      position: relative;
+      display: inline-block;
+    }
+    img {
+      width: auto;
+      height: auto;
+      max-width: 100vw;
+      max-height: 100vh;
+      object-fit: contain;
+      display: block;
+    }
+    /* Невидимые кликабельные зоны поверх КАРТИНКИ (а не всего экрана) */
+    .hotspot-layer {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hotspot {
+      position: absolute;
+      display: block;
+      text-decoration: none;
+      background: transparent;
+      border-radius: 14px;
+    }
+
+    .hotspot:focus-visible {
+      outline: 3px solid rgba(255,255,255,0.85);
+      outline-offset: 4px;
+    }
+
+    /* Координаты в процентах под ваш макет */
+    .hotspot-1 { left: 2.2%; top: 30.5%; width: 26.5%; height: 10.5%; }
+    .hotspot-2 { left: 2.2%; top: 42.7%; width: 26.5%; height: 11.0%; }
+    .hotspot-3 { left: 2.2%; top: 55.3%; width: 26.5%; height: 10.8%; }
+    .hotspot-4 { left: 2.2%; top: 67.8%; width: 31.0%; height: 12.0%; }
+    .placeholder {
+      color: #fff;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      text-align: center;
+      padding: 24px;
+      max-width: 720px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="stage">
+      {% if homepage and homepage.hero_image_url %}
+        <img src="{{ homepage.hero_image_url }}" alt="Заглавная картинка" />
+
+        <div class="hotspot-layer">
+          <a class="hotspot hotspot-1" href="{{ url_for('fundraisers', category='loyalty_to_sport') }}" aria-label="{{ homepage.left_item_1 or 'Помощь ветеранам и тренерам' }}"></a>
+          <a class="hotspot hotspot-2" href="{{ url_for('fundraisers', category='future_champion') }}" aria-label="{{ homepage.left_item_2 or 'Помощь молодым спортсменам' }}"></a>
+          <a class="hotspot hotspot-3" href="{{ url_for('fundraisers', category='strength_spirit_home') }}" aria-label="{{ homepage.left_item_3 or 'Помощь спортсменам и клубам' }}"></a>
+          <a class="hotspot hotspot-4" href="{{ url_for('fundraisers', category='second_chance') }}" aria-label="{{ homepage.left_item_4 or 'Помощь спортсменам в реабилитации' }}"></a>
+        </div>
+      {% else %}
+        <div class="placeholder">
+          Загрузите заглавную картинку в админке: «Главная» → «Баннер».
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
+

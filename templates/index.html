@@ -86,315 +86,36 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div class="container">
-        <div class="hero-content">
-            <h1>Благотворительный местный фонд помощи спортсменам</h1>
-            <p>Вместе мы можем изменить жизни людей к лучшему</p>
-            <div class="hero-buttons">
-                <a href="{{ url_for('fundraisers') }}" class="btn btn-primary">Поддержать сбор</a>
-                <a href="{{ url_for('our_people') }}" class="btn btn-secondary">Наши волонтеры</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="stats">
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <i class="fas fa-hand-holding-heart"></i>
-                <h3>Активных сборов</h3>
-                <p class="stat-number">{{ fundraisers|length }}</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-users"></i>
-                <h3>Наших волонтеров</h3>
-                <p class="stat-number">{{ volunteers|length }}</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-heart"></i>
-                <h3>Спортсменов поддержано</h3>
-                <p class="stat-number">150+</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Блок "Почему важно поддерживать спортсменов" -->
-<section class="section why-support-section">
-    <div class="container">
-        <h2 class="section-title"><i class="fas fa-heart"></i> Почему важно поддерживать спортсменов?</h2>
-        <div class="info-grid">
-            <div class="info-card">
-                <i class="fas fa-child"></i>
-                <h3>Будущий чемпион</h3>
-                <p>Юные таланты нуждаются в поддержке для тренировок, инвентаря и участия в соревнованиях. Ваша помощь — инвестиция в будущих чемпионов Беларуси.</p>
-            </div>
-            <div class="info-card">
-                <i class="fas fa-medkit"></i>
-                <h3>Второй шанс</h3>
-                <p>Травмы случаются, и дорогостоящие операции порой недоступны. Помогите спортсменам вернуться к любимому делу после восстановления.</p>
-            </div>
-            <div class="info-card">
-                <i class="fas fa-award"></i>
-                <h3>Верность спорту</h3>
-                <p>Спортсмены, посвятившие жизнь тренерской работе и воспитанию поколений, заслуживают нашей поддержки и благодарности.</p>
-            </div>
-            <div class="info-card">
-                <i class="fas fa-dumbbell"></i>
-                <h3>Дом силы и духа</h3>
-                <p>Спортзалы и клубы — это места, где воспитываются чемпионы. Поддержите покупку инвентаря и оборудования для тренировочных баз.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-{% if fundraisers %}
-<section class="section">
-    <div class="container">
-        <h2 class="section-title">Активные сборы</h2>
-        <div class="cards-grid">
-            {% for fundraiser in fundraisers %}
-            <div class="card">
-                {% set images = fundraiser.get_images() %}
-                {% if images %}
-                    {% if images|length > 1 %}
-                    <div class="card-image-slider">
-                        {% for image_url in images %}
-                        <img src="{{ image_url }}" alt="{{ fundraiser.title }}" class="card-image slider-image" data-slider-index="{{ loop.index0 }}">
-                        {% endfor %}
-                        <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
-                        <div class="slider-dots">
-                            {% for image_url in images %}
-                            <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% else %}
-                    <img src="{{ images[0] }}" alt="{{ fundraiser.title }}" class="card-image">
-                    {% endif %}
-                {% else %}
-                <div class="card-image-placeholder">
-                    <i class="fas fa-running"></i>
+<section class="landing-hero">
+    <div class="container landing-hero-container">
+        <div class="landing-hero-media">
+            {% if homepage and homepage.hero_image_url %}
+                <img src="{{ homepage.hero_image_url }}" alt="Заглавная картинка">
+            {% else %}
+                <div class="landing-hero-placeholder">
+                    Загрузите заглавную картинку в админке: «Главная»
                 </div>
-                {% endif %}
-                <div class="card-content">
-                    {% if fundraiser.category %}
-                    <div class="card-category">
-                        {% if fundraiser.category == 'future_champion' %}
-                            <i class="fas fa-star"></i> Будущий чемпион
-                        {% elif fundraiser.category == 'second_chance' %}
-                            <i class="fas fa-heartbeat"></i> Второй шанс
-                        {% elif fundraiser.category == 'loyalty_to_sport' %}
-                            <i class="fas fa-medal"></i> Верность спорту
-                        {% elif fundraiser.category == 'strength_spirit_home' %}
-                            <i class="fas fa-dumbbell"></i> Дом силы и духа
-                        {% endif %}
-                    </div>
-                    {% endif %}
-                    <h3>{{ fundraiser.title }}</h3>
-                    <p class="card-athlete">{{ fundraiser.athlete_name }}</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: {{ fundraiser.progress_percentage() }}%"></div>
-                    </div>
-                    <div class="card-stats">
-                        <span>Собрано: {{ "{:,.0f}".format(fundraiser.current_amount) }} Br</span>
-                        <span>Цель: {{ "{:,.0f}".format(fundraiser.goal_amount) }} Br</span>
-                    </div>
-                    <a href="{{ url_for('fundraiser_detail', id=fundraiser.id) }}" class="btn btn-primary">Подробнее</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="section-footer">
-            <a href="{{ url_for('fundraisers') }}" class="btn btn-outline">Все сборы</a>
-        </div>
-    </div>
-</section>
-{% endif %}
+            {% endif %}
 
-{% if volunteers %}
-<section class="section">
-    <div class="container">
-        <h2 class="section-title">Наши волонтеры</h2>
-        
-        <div class="volunteers-carousel">
-            <button class="carousel-btn carousel-prev" onclick="moveVolunteerSlide(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            
-            <div class="volunteers-track">
-                {% for volunteer in volunteers %}
-                <div class="volunteer-slide">
-                    <div class="volunteer-card">
-                        <div class="volunteer-photo">
-                            {% if volunteer.photo_url %}
-                            <img src="{{ volunteer.photo_url }}" alt="{{ volunteer.name }}">
-                            {% else %}
-                            <div class="volunteer-photo-placeholder">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="volunteer-info">
-                            <h3>{{ volunteer.name }}</h3>
-                            {% if volunteer.role %}
-                            <p class="volunteer-role">{{ volunteer.role }}</p>
-                            {% endif %}
-                            <p class="volunteer-description">{{ volunteer.description[:180] }}{% if volunteer.description|length > 180 %}...{% endif %}</p>
-                        </div>
-                    </div>
+            <div class="landing-hero-overlay">
+                <div class="landing-hero-tagline">
+                    {{ homepage.tagline if homepage else 'Быть рядом, когда это важно' }}
                 </div>
-                {% endfor %}
-            </div>
-            
-            <button class="carousel-btn carousel-next" onclick="moveVolunteerSlide(1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-        
-        <div class="carousel-indicators">
-            {% for volunteer in volunteers %}
-            <span class="carousel-indicator" onclick="goToVolunteerSlide({{ loop.index0 }})"></span>
-            {% endfor %}
-        </div>
-        
-        <div class="section-footer">
-            <a href="{{ url_for('our_people') }}" class="btn btn-outline">Все волонтеры</a>
-        </div>
-    </div>
-</section>
-{% endif %}
 
-
-{% if news %}
-<section class="section">
-    <div class="container">
-        <h2 class="section-title">Последние новости</h2>
-        <div class="cards-grid">
-            {% for item in news %}
-            <div class="card">
-                {% set images = item.get_images() %}
-                {% if images %}
-                    {% if images|length > 1 %}
-                    <div class="card-image-slider">
-                        {% for image_url in images %}
-                        <img src="{{ image_url }}" alt="{{ item.title }}" class="card-image slider-image" data-slider-index="{{ loop.index0 }}">
-                        {% endfor %}
-                        <button class="slider-btn slider-prev" onclick="moveSlide(this, -1)"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn slider-next" onclick="moveSlide(this, 1)"><i class="fas fa-chevron-right"></i></button>
-                        <div class="slider-dots">
-                            {% for image_url in images %}
-                            <span class="slider-dot" onclick="goToSlide(this, {{ loop.index0 }})"></span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% else %}
-                    <img src="{{ images[0] }}" alt="{{ item.title }}" class="card-image">
-                    {% endif %}
-                {% else %}
-                <div class="card-image-placeholder">
-                    <i class="fas fa-newspaper"></i>
+                <div class="landing-hero-links">
+                    <a class="landing-hero-link" href="{{ url_for('fundraisers', category='loyalty_to_sport') }}">
+                        {{ homepage.left_item_1 if homepage else 'Помощь ветеранам и тренерам' }}
+                    </a>
+                    <a class="landing-hero-link" href="{{ url_for('fundraisers', category='future_champion') }}">
+                        {{ homepage.left_item_2 if homepage else 'Помощь молодым спортсменам' }}
+                    </a>
+                    <a class="landing-hero-link" href="{{ url_for('fundraisers', category='strength_spirit_home') }}">
+                        {{ homepage.left_item_3 if homepage else 'Помощь спортсменам и клубам' }}
+                    </a>
+                    <a class="landing-hero-link" href="{{ url_for('fundraisers', category='second_chance') }}">
+                        {{ homepage.left_item_4 if homepage else 'Помощь спортсменам в реабилитации' }}
+                    </a>
                 </div>
-                {% endif %}
-                <div class="card-content">
-                    <p class="card-date">{{ item.created_at.strftime('%d.%m.%Y') }}</p>
-                    <h3>{{ item.title }}</h3>
-                    <p class="card-description">{{ item.summary or item.content[:150] }}...</p>
-                    <a href="{{ url_for('news_detail', id=item.id) }}" class="btn btn-outline">Читать далее</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="section-footer">
-            <a href="{{ url_for('news') }}" class="btn btn-outline">Все новости</a>
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<!-- Блок "Почему нам доверяют" -->
-<section class="section trust-section-home">
-    <div class="container">
-        <h2 class="section-title"><i class="fas fa-shield-alt"></i> Почему нам доверяют?</h2>
-        <div class="trust-features">
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fas fa-check-circle"></i></div>
-                <div class="trust-content">
-                    <h3>100% прозрачность</h3>
-                    <p>Публикуем отчёты о каждом рубле — вы всегда знаете, куда идут ваши средства</p>
-                </div>
-            </div>
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fas fa-file-invoice"></i></div>
-                <div class="trust-content">
-                    <h3>Официальная регистрация</h3>
-                    <p>Мы работаем легально, все документы и отчёты доступны по запросу</p>
-                </div>
-            </div>
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fas fa-users"></i></div>
-                <div class="trust-content">
-                    <h3>Реальные истории</h3>
-                    <p>Все наши подопечные — реальные люди с подтверждёнными потребностями</p>
-                </div>
-            </div>
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fas fa-hand-holding-heart"></i></div>
-                <div class="trust-content">
-                    <h3>Без посредников</h3>
-                    <p>Средства идут напрямую на помощь, без административных накладок</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Компактный FAQ -->
-<section class="section faq-section-home">
-    <div class="container">
-        <h2 class="section-title"><i class="fas fa-question-circle"></i> Частые вопросы</h2>
-        <div class="faq-compact-list">
-            <div class="faq-compact-item">
-                <h3><i class="fas fa-hand-holding-usd"></i> Как я могу помочь?</h3>
-                <p>Выберите интересующий вас сбор и свяжитесь с нами любым удобным способом. Мы подскажем реквизиты и ответим на все вопросы.</p>
-            </div>
-            <div class="faq-compact-item">
-                <h3><i class="fas fa-receipt"></i> Как я узнаю, что деньги дошли?</h3>
-                <p>Мы публикуем регулярные отчёты по каждому сбору с чеками, фотографиями и благодарностями от подопечных.</p>
-            </div>
-            <div class="faq-compact-item">
-                <h3><i class="fas fa-user-secret"></i> Можно ли помочь анонимно?</h3>
-                <p>Конечно! Мы уважаем приватность благотворителей. Вы можете помочь без указания имени.</p>
-            </div>
-            <div class="faq-compact-item">
-                <h3><i class="fas fa-hands-helping"></i> Можно ли помочь не деньгами?</h3>
-                <p>Да! Вы можете стать волонтёром, поделиться информацией в соцсетях или предоставить услуги/товары.</p>
-            </div>
-            <div class="faq-compact-item">
-                <h3><i class="fas fa-clipboard-check"></i> Как отбираются спортсмены?</h3>
-                <p>Мы проверяем каждую заявку: изучаем документы, общаемся со спортсменом, подтверждаем реальность потребности.</p>
-            </div>
-            <div class="faq-compact-item">
-                <h3><i class="fas fa-file-medical"></i> Можно ли подать заявку?</h3>
-                <p>Да, мы рассматриваем заявки от спортсменов, тренеров или их родственников. Свяжитесь с нами!</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Финальный призыв к действию -->
-<section class="section cta-home">
-    <div class="container">
-        <div class="cta-home-content">
-            <i class="fas fa-hands-helping"></i>
-            <h2>Станьте частью нашей команды!</h2>
-            <p>Каждый рубль, каждое доброе слово, каждый репост — это реальная помощь людям, которые посвятили жизнь спорту. Вместе мы можем больше!</p>
-            <div class="cta-buttons">
-                <a href="{{ url_for('donate') }}" class="btn btn-primary"><i class="fas fa-heart"></i> Пожертвовать</a>
-                <a href="{{ url_for('about') }}" class="btn btn-outline"><i class="fas fa-info-circle"></i> О фонде</a>
             </div>
         </div>
     </div>

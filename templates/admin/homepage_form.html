@@ -1,0 +1,91 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Главная страница - Админ{% endblock %}
+
+{% block page_title %}Главная страница{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form method="POST" action="{{ url_for('admin_edit_homepage') }}" enctype="multipart/form-data" class="admin-form">
+        <div class="form-group">
+            <label for="tagline">Слоган (верхняя строка)</label>
+            <input type="text" id="tagline" name="tagline" class="form-control"
+                   value="{{ homepage.tagline if homepage else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="title">Главный заголовок</label>
+            <textarea id="title" name="title" class="form-control wysiwyg" rows="4">{{ homepage.title if homepage else '' }}</textarea>
+            <small class="form-text">Можно выделять части текста и переносить строки.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Левый список (4 пункта)</label>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="left_item_1">Пункт 1</label>
+                    <input type="text" id="left_item_1" name="left_item_1" class="form-control" value="{{ homepage.left_item_1 if homepage else '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="left_item_2">Пункт 2</label>
+                    <input type="text" id="left_item_2" name="left_item_2" class="form-control" value="{{ homepage.left_item_2 if homepage else '' }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="left_item_3">Пункт 3</label>
+                    <input type="text" id="left_item_3" name="left_item_3" class="form-control" value="{{ homepage.left_item_3 if homepage else '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="left_item_4">Пункт 4</label>
+                    <input type="text" id="left_item_4" name="left_item_4" class="form-control" value="{{ homepage.left_item_4 if homepage else '' }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="hero_image_file">Баннер (изображение как на примере)</label>
+            <input type="file" id="hero_image_file" name="hero_image_file" class="form-control"
+                   accept="image/png,image/jpeg,image/jpg,image/gif,image/webp">
+            <small class="form-text">PNG/JPG/GIF/WEBP до 5 МБ. Загрузка заменит текущий баннер.</small>
+
+            {% if homepage and homepage.hero_image_url %}
+            <div class="current-image" style="margin-top: 1rem;">
+                <p class="form-text">Текущий баннер:</p>
+                <img src="{{ homepage.hero_image_url }}" alt="Hero" class="image-preview-thumb" style="max-width: 320px;">
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="hero_image_url">Или URL баннера</label>
+            <input type="url" id="hero_image_url" name="hero_image_url" class="form-control"
+                   placeholder="https://example.com/banner.png"
+                   value="{{ homepage.hero_image_url if homepage and homepage.hero_image_url and homepage.hero_image_url.startswith('http') else '' }}">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Сохранить
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('title', {
+        language: 'ru',
+        height: 160,
+        extraPlugins: 'justify',
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', '-', 'RemoveFormat'] },
+            { name: 'paragraph', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
+            { name: 'links', items: ['Link', 'Unlink'] },
+            { name: 'tools', items: ['Maximize'] }
+        ],
+        contentsCss: ['{{ url_for("static", filename="css/style.css") }}']
+    });
+</script>
+{% endblock %}
+
