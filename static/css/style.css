@@ -74,8 +74,10 @@ body.minimal .section {
     padding: 40px 0;
 }
 
+/* Не задаём общий цвет ссылок в minimal-теме.
+   Цвет ссылок настраиваем точечно в конкретных блоках (модалки/топбар/карточки). */
 body.minimal a {
-    color: rgba(255,255,255,0.95);
+    color: inherit;
 }
 
 body.minimal .btn-outline {
@@ -301,43 +303,88 @@ body.minimal .fundraiser-detail-page .btn-outline::after {
     background: rgba(10, 90, 165, 0.10);
 }
 
-/* Сборы: модалка QR + контакты (читабельный белый текст) */
-body.minimal .fundraiser-detail-page .contact-modal-content {
+/* QR-страница (/donate): белый текст */
+body.minimal .donate-qr-page,
+body.minimal .donate-qr-page p,
+body.minimal .donate-qr-page h1,
+body.minimal .donate-qr-page h2,
+body.minimal .donate-qr-page h3,
+body.minimal .donate-qr-page li {
+    color: rgba(255,255,255,0.95);
+}
+
+body.minimal .donate-qr-page .section-title {
+    color: rgba(255,255,255,0.98);
+}
+
+body.minimal .donate-qr-page .donate-qr-card,
+body.minimal .donate-qr-page .donate-qr-info {
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 18px 60px rgba(0,0,0,0.25);
+}
+
+/* Сборы: модалка QR + контакты (читабельный белый текст)
+   ВАЖНО: модалка не вложена в .fundraiser-detail-page (она после </section>),
+   поэтому стили вешаем без этого предка. */
+body.minimal .contact-modal-content {
     background: linear-gradient(180deg, rgba(10, 90, 165, 0.96) 0%, rgba(6, 31, 63, 0.96) 100%);
     color: rgba(255,255,255,0.95);
     border: 1px solid rgba(255,255,255,0.18);
 }
 
-body.minimal .fundraiser-detail-page .contact-modal-content h2,
-body.minimal .fundraiser-detail-page .contact-modal-content h3,
-body.minimal .fundraiser-detail-page .contact-modal-content strong {
+body.minimal .contact-modal-content h2,
+body.minimal .contact-modal-content h3,
+body.minimal .contact-modal-content strong {
     color: rgba(255,255,255,0.98);
 }
 
-body.minimal .fundraiser-detail-page .contact-modal-description,
-body.minimal .fundraiser-detail-page .contact-modal-content p {
+body.minimal .contact-modal-description,
+body.minimal .contact-modal-content p {
     color: rgba(255,255,255,0.88);
 }
 
-body.minimal .fundraiser-detail-page .contact-modal-content a {
+body.minimal .contact-modal-content a {
     color: rgba(255,255,255,0.98);
     text-decoration: none;
 }
 
-body.minimal .fundraiser-detail-page .contact-modal-content a:hover {
+body.minimal .contact-modal-content a:hover {
     text-decoration: underline;
 }
 
-body.minimal .fundraiser-detail-page .contact-item {
+body.minimal .contact-item {
     background: rgba(255,255,255,0.10);
 }
 
-body.minimal .fundraiser-detail-page .contact-modal-close {
+/* В QR-окне: телефон/почта чёрным на белых карточках */
+body.minimal .contact-methods .contact-item {
+    background: rgba(255,255,255,0.95) !important;
+    border: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+body.minimal .contact-methods .contact-item i {
+    color: #0a5aa5 !important;
+}
+
+body.minimal .contact-methods .contact-info-text,
+body.minimal .contact-methods .contact-info-text strong,
+body.minimal .contact-methods .contact-info-text a {
+    color: #1a1a2e !important;
+}
+
+body.minimal .contact-methods .contact-info-text a:hover {
+    color: #0a5aa5;
+}
+
+body.minimal .contact-modal-close {
     color: rgba(255,255,255,0.85);
 }
 
-body.minimal .fundraiser-detail-page .contact-modal-close:hover,
-body.minimal .fundraiser-detail-page .contact-modal-close:focus {
+body.minimal .contact-modal-close:hover,
+body.minimal .contact-modal-close:focus {
     color: rgba(255,255,255,0.98);
 }
 
