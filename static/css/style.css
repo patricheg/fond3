@@ -56,6 +56,198 @@ body {
     min-height: 100vh;
 }
 
+/* ======================
+   MINIMAL THEME (в стиле новой главной)
+   ====================== */
+
+body.minimal {
+    background: radial-gradient(1200px 800px at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 55%),
+                linear-gradient(180deg, #0a5aa5 0%, #083a6b 60%, #061f3f 100%);
+    color: rgba(255,255,255,0.92);
+}
+
+body.minimal .container {
+    max-width: 1100px;
+}
+
+body.minimal .section {
+    padding: 40px 0;
+}
+
+body.minimal a {
+    color: rgba(255,255,255,0.95);
+}
+
+body.minimal .btn-outline {
+    border-color: rgba(255,255,255,0.75);
+    color: rgba(255,255,255,0.95);
+}
+
+body.minimal .btn-outline::after {
+    background: rgba(255,255,255,0.15);
+}
+
+body.minimal .btn-primary {
+    background: rgba(255,255,255,0.92);
+    color: #0a3f77;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+}
+
+body.minimal .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(0,0,0,0.35);
+}
+
+.minimal-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+    background: rgba(6, 31, 63, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.minimal-topbar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.minimal-back {
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.92);
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.minimal-back:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateX(-2px);
+}
+
+.minimal-home {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.08);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.minimal-home:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-2px);
+}
+
+.minimal-main {
+    padding: 18px 0 40px;
+}
+
+body.minimal .page-header {
+    background: transparent;
+    padding: 18px 0 10px;
+}
+
+body.minimal .page-header h1 {
+    font-size: 2.3rem;
+}
+
+body.minimal .page-header p {
+    font-size: 1.05rem;
+    opacity: 0.9;
+}
+
+/* Glass containers */
+body.minimal .article,
+body.minimal .detail-main,
+body.minimal .sidebar-card,
+body.minimal .content-block,
+body.minimal .about-images,
+body.minimal .news-item,
+body.minimal .card,
+body.minimal .empty-state,
+body.minimal .faq-compact-list,
+body.minimal .contact-modal-content {
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 18px 60px rgba(0,0,0,0.25);
+    color: rgba(255,255,255,0.92);
+}
+
+body.minimal .card-content h3,
+body.minimal .article h1,
+body.minimal .detail-main h1,
+body.minimal .content-block h2,
+body.minimal .news-content h2 a,
+body.minimal .sidebar-card h3 {
+    color: rgba(255,255,255,0.96);
+}
+
+body.minimal .card-description,
+body.minimal .news-summary,
+body.minimal .detail-content,
+body.minimal .article-content,
+body.minimal .text-content {
+    color: rgba(255,255,255,0.88);
+}
+
+body.minimal .detail-meta,
+body.minimal .news-date,
+body.minimal .article-date,
+body.minimal .card-date {
+    color: rgba(255,255,255,0.75);
+}
+
+body.minimal .progress-bar {
+    background: rgba(255,255,255,0.12);
+}
+
+body.minimal .progress-fill {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+
+body.minimal .card-category {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.92);
+    border: 1px solid rgba(255,255,255,0.16);
+}
+
+body.minimal .category-filters {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+body.minimal .category-filter {
+    color: rgba(255,255,255,0.88);
+}
+
+body.minimal .category-filter.active {
+    background: rgba(255,255,255,0.14);
+}
+
+body.minimal .footer,
+body.minimal .navbar {
+    display: none;
+}
+
 /* Современная прокрутка */
 ::-webkit-scrollbar {
     width: 10px;
