@@ -301,6 +301,76 @@ body.minimal .fundraiser-detail-page .btn-outline::after {
     background: rgba(10, 90, 165, 0.10);
 }
 
+/* Сборы: модалка QR + контакты (читабельный белый текст) */
+body.minimal .fundraiser-detail-page .contact-modal-content {
+    background: linear-gradient(180deg, rgba(10, 90, 165, 0.96) 0%, rgba(6, 31, 63, 0.96) 100%);
+    color: rgba(255,255,255,0.95);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+body.minimal .fundraiser-detail-page .contact-modal-content h2,
+body.minimal .fundraiser-detail-page .contact-modal-content h3,
+body.minimal .fundraiser-detail-page .contact-modal-content strong {
+    color: rgba(255,255,255,0.98);
+}
+
+body.minimal .fundraiser-detail-page .contact-modal-description,
+body.minimal .fundraiser-detail-page .contact-modal-content p {
+    color: rgba(255,255,255,0.88);
+}
+
+body.minimal .fundraiser-detail-page .contact-modal-content a {
+    color: rgba(255,255,255,0.98);
+    text-decoration: none;
+}
+
+body.minimal .fundraiser-detail-page .contact-modal-content a:hover {
+    text-decoration: underline;
+}
+
+body.minimal .fundraiser-detail-page .contact-item {
+    background: rgba(255,255,255,0.10);
+}
+
+body.minimal .fundraiser-detail-page .contact-modal-close {
+    color: rgba(255,255,255,0.85);
+}
+
+body.minimal .fundraiser-detail-page .contact-modal-close:hover,
+body.minimal .fundraiser-detail-page .contact-modal-close:focus {
+    color: rgba(255,255,255,0.98);
+}
+
+/* ======================
+   Слайдеры: одинаковая высота, корректный кроп разных размеров
+   ====================== */
+
+.card-image-slider,
+.detail-image-slider,
+.news-image-slider {
+    background: rgba(0,0,0,0.06);
+}
+
+.card-image-slider .slider-image,
+.detail-image-slider .slider-image,
+.news-image-slider .slider-image {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.card-image-slider {
+    height: 220px;
+}
+
+.detail-image-slider {
+    height: 400px;
+}
+
+.news-image-slider {
+    height: 250px;
+}
+
 /* Современная прокрутка */
 ::-webkit-scrollbar {
     width: 10px;
