@@ -40,6 +40,19 @@
     }
     @media (min-width: 1100px) { .wrap { padding: 24px; } }
     @media (max-width: 420px) { .wrap { padding: 10px; } }
+    /* На мобильных: картинка во весь экран */
+    @media (max-width: 720px) {
+      .wrap { padding: 0; padding-top: 0; }
+      .stage { width: 100vw; }
+      picture, img {
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 0;
+      }
+      .wrap::before { opacity: 0.85; }
+    }
 
     .topbar {
       position: fixed;
