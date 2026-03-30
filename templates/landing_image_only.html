@@ -45,7 +45,7 @@
       max-height: 100%;
       z-index: 1;
     }
-    img {
+    picture, img {
       width: auto;
       height: auto;
       max-width: 100%;
@@ -103,7 +103,12 @@
   <div class="wrap">
     <div class="stage">
       {% if homepage and homepage.hero_image_url %}
-        <img src="{{ homepage.hero_image_url }}" alt="Заглавная картинка" />
+        <picture>
+          {% if homepage.hero_image_url_mobile %}
+            <source media="(max-width: 720px)" srcset="{{ homepage.hero_image_url_mobile }}">
+          {% endif %}
+          <img src="{{ homepage.hero_image_url }}" alt="Заглавная картинка" />
+        </picture>
 
         <div class="hotspot-layer">
           <a class="hotspot hotspot-1" href="{{ url_for('about') }}" aria-label="О фонде"></a>

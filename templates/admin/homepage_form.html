@@ -65,6 +65,27 @@
         </div>
 
         <div class="form-group">
+            <label for="hero_image_file_mobile">Баннер (мобильная версия)</label>
+            <input type="file" id="hero_image_file_mobile" name="hero_image_file_mobile" class="form-control"
+                   accept="image/png,image/jpeg,image/jpg,image/gif,image/webp">
+            <small class="form-text">Опционально. Если задано — на телефонах будет показываться эта версия.</small>
+
+            {% if homepage and homepage.hero_image_url_mobile %}
+            <div class="current-image" style="margin-top: 1rem;">
+                <p class="form-text">Текущий мобильный баннер:</p>
+                <img src="{{ homepage.hero_image_url_mobile }}" alt="Hero mobile" class="image-preview-thumb" style="max-width: 320px;">
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="hero_image_url_mobile">Или URL баннера (мобильная версия)</label>
+            <input type="url" id="hero_image_url_mobile" name="hero_image_url_mobile" class="form-control"
+                   placeholder="https://example.com/banner-mobile.png"
+                   value="{{ homepage.hero_image_url_mobile if homepage and homepage.hero_image_url_mobile and homepage.hero_image_url_mobile.startswith('http') else '' }}">
+        </div>
+
+        <div class="form-group">
             <label for="directions_image_file">Картинка «Направления деятельности»</label>
             <input type="file" id="directions_image_file" name="directions_image_file" class="form-control"
                    accept="image/png,image/jpeg,image/jpg,image/gif,image/webp">
@@ -83,6 +104,27 @@
             <input type="url" id="directions_image_url" name="directions_image_url" class="form-control"
                    placeholder="https://example.com/directions.png"
                    value="{{ homepage.directions_image_url if homepage and homepage.directions_image_url and homepage.directions_image_url.startswith('http') else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="directions_image_file_mobile">Картинка «Направления деятельности» (мобильная версия)</label>
+            <input type="file" id="directions_image_file_mobile" name="directions_image_file_mobile" class="form-control"
+                   accept="image/png,image/jpeg,image/jpg,image/gif,image/webp">
+            <small class="form-text">Опционально. На телефонах будет показываться эта версия (можно сделать более крупной/длинной).</small>
+
+            {% if homepage and homepage.directions_image_url_mobile %}
+            <div class="current-image" style="margin-top: 1rem;">
+                <p class="form-text">Текущая мобильная картинка:</p>
+                <img src="{{ homepage.directions_image_url_mobile }}" alt="Directions mobile" class="image-preview-thumb" style="max-width: 320px;">
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="directions_image_url_mobile">Или URL картинки «Направления деятельности» (мобильная версия)</label>
+            <input type="url" id="directions_image_url_mobile" name="directions_image_url_mobile" class="form-control"
+                   placeholder="https://example.com/directions-mobile.png"
+                   value="{{ homepage.directions_image_url_mobile if homepage and homepage.directions_image_url_mobile and homepage.directions_image_url_mobile.startswith('http') else '' }}">
         </div>
 
         <div class="form-actions">

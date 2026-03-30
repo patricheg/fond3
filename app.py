@@ -5,6 +5,8 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
 import uuid
+import sqlite3
+from pathlib import Path
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-change-this-in-production'
@@ -26,6 +28,49 @@ db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'admin_login'
+
+
+def _ensure_sqlite_homepage_columns():
+    """Лёгкая миграция для SQLite без Alembic (добавляет новые колонки при обновлениях)."""
+    uri = app.config.get('SQLALCHEMY_DATABASE_URI', '')
+    if not uri.startswith('sqlite'):
+        return
+
+    candidates = [
+        Path(app.instance_path) / "database.db",
+        Path(__file__).resolve().parent / "instance" / "database.db",
+        Path(__file__).resolve().parent / "database.db",
+    ]
+    db_path = next((p for p in candidates if p.exists()), None)
+    if not db_path:
+        return
+
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    try:
+        cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='home_page'")
+        if not cur.fetchone():
+            return
+
+        cur.execute("PRAGMA table_info(home_page)")
+        cols = {r[1] for r in cur.fetchall()}
+        alters = []
+        if "directions_image_url" not in cols:
+            alters.append("ALTER TABLE home_page ADD COLUMN directions_image_url VARCHAR(300)")
+        if "directions_image_url_mobile" not in cols:
+            alters.append("ALTER TABLE home_page ADD COLUMN directions_image_url_mobile VARCHAR(300)")
+        if "hero_image_url_mobile" not in cols:
+            alters.append("ALTER TABLE home_page ADD COLUMN hero_image_url_mobile VARCHAR(300)")
+
+        for sql in alters:
+            cur.execute(sql)
+        if alters:
+            conn.commit()
+    finally:
+        conn.close()
+
+
+_ensure_sqlite_homepage_columns()
 
 
 @login_manager.user_loader
@@ -862,6 +907,17 @@ def admin_edit_homepage():
             if hero_url:
                 homepage.hero_image_url = hero_url
 
+    # Мобильный баннер
+    if request.form.get('hero_image_url_mobile'):
+        homepage.hero_image_url_mobile = request.form.get('hero_image_url_mobile')
+
+    if 'hero_image_file_mobile' in request.files:
+        file = request.files.get('hero_image_file_mobile')
+        if file and file.filename:
+            img_url = save_image(file)
+            if img_url:
+                homepage.hero_image_url_mobile = img_url
+
     # Картинка для страницы «Направления деятельности»
     if request.form.get('directions_image_url'):
         homepage.directions_image_url = request.form.get('directions_image_url')
@@ -872,6 +928,17 @@ def admin_edit_homepage():
             img_url = save_image(file)
             if img_url:
                 homepage.directions_image_url = img_url
+
+    # Мобильная версия картинки направлений
+    if request.form.get('directions_image_url_mobile'):
+        homepage.directions_image_url_mobile = request.form.get('directions_image_url_mobile')
+
+    if 'directions_image_file_mobile' in request.files:
+        file = request.files.get('directions_image_file_mobile')
+        if file and file.filename:
+            img_url = save_image(file)
+            if img_url:
+                homepage.directions_image_url_mobile = img_url
 
     db.session.commit()
     flash('Главная страница обновлена!', 'success')
