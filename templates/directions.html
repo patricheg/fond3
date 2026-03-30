@@ -40,14 +40,14 @@
     }
     @media (min-width: 1100px) { .wrap { padding: 24px; } }
     @media (max-width: 420px) { .wrap { padding: 10px; } }
-    /* На мобильных: картинка во весь экран */
+    /* На мобильных: вписываем картинку в экран (без обрезки) */
     @media (max-width: 720px) {
       .wrap { padding: 0; padding-top: 0; }
       .stage { width: 100vw; }
       picture, img {
         width: 100vw;
         height: 100vh;
-        object-fit: cover;
+        object-fit: contain;
         object-position: center;
         border-radius: 0;
       }
