@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, make_response
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, make_response, send_from_directory, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import db, User, Fundraiser, News, Tournament, AboutPage, ContactInfo, HomePage, OurPeople, TournamentRegistration
 from datetime import datetime
@@ -153,6 +153,23 @@ def fundraisers():
                          selected_category=category)
 
 
+@app.route('/directions')
+def directions():
+    """Страница направлений деятельности"""
+    homepage = HomePage.query.first()
+    if not homepage:
+        homepage = HomePage()
+        db.session.add(homepage)
+        db.session.commit()
+    return render_template("directions.html", homepage=homepage)
+
+
+@app.route('/directions/<slug>')
+def direction_detail(slug):
+    """Редирект: направления теперь одной картинкой"""
+    return redirect(url_for('directions'))
+
+
 @app.route('/fundraiser/<int:id>')
 def fundraiser_detail(id):
     """Детальная страница сбора"""
@@ -263,6 +280,32 @@ def about():
         db.session.add(about_page)
         db.session.commit()
     return render_template('about.html', about=about_page)
+
+
+@app.route('/fund')
+def fund_about():
+    """Раздел «О фонде» (фиксированный контент)"""
+    return render_template('fund_about.html')
+
+
+@app.route('/reports')
+def reports():
+    """Раздел «Отчетность»"""
+    sections = [
+        {"title": "Устав", "files": ["ustav.pdf", "ustav.docx", "ustav.jpg", "ustav.png"]},
+        {"title": "Свидетельство о регистрации", "files": ["registration.pdf", "registration.docx", "registration.jpg", "registration.png"]},
+        {"title": "Реквизиты", "files": ["requisites.pdf", "requisites.docx", "requisites.jpg", "requisites.png"]},
+        {"title": "Годовые отчеты", "files": ["annual_report_2024.pdf", "annual_report_2025.pdf"]},
+    ]
+    return render_template("reports.html", sections=sections)
+
+
+@app.route('/reports/download/<path:filename>')
+def reports_download(filename):
+    """Скачивание файлов отчетности"""
+    if not filename or ".." in filename or filename.startswith(("/", "\\")):
+        abort(404)
+    return send_from_directory("static/reports", filename, as_attachment=True)
 
 
 @app.route('/our-people')
@@ -818,6 +861,17 @@ def admin_edit_homepage():
             hero_url = save_image(file)
             if hero_url:
                 homepage.hero_image_url = hero_url
+
+    # Картинка для страницы «Направления деятельности»
+    if request.form.get('directions_image_url'):
+        homepage.directions_image_url = request.form.get('directions_image_url')
+
+    if 'directions_image_file' in request.files:
+        file = request.files.get('directions_image_file')
+        if file and file.filename:
+            img_url = save_image(file)
+            if img_url:
+                homepage.directions_image_url = img_url
 
     db.session.commit()
     flash('Главная страница обновлена!', 'success')

@@ -1,0 +1,35 @@
+{% extends "base_minimal.html" %}
+{% block title %}Отчетность{% endblock %}
+
+{% block content %}
+<section class="container minimal-container">
+  <div class="glass-section">
+    <h1 class="section-title" style="margin-bottom: 1rem;">Отчетность</h1>
+
+    <div style="display:grid; gap: 14px;">
+      {% for s in sections %}
+        <div class="glass-card">
+          <div style="font-weight: 900; font-size: 1.05rem; color: rgba(255,255,255,0.95);">
+            {{ s.title }}
+          </div>
+
+          <div style="margin-top: 10px; display:flex; flex-wrap:wrap; gap: 10px;">
+            {% for f in s.files %}
+              <a class="btn btn-outline" href="{{ url_for('reports_download', filename=f) }}" style="border-radius: 12px; padding: 10px 12px;">
+                <i class="fas fa-download"></i> {{ f }}
+              </a>
+            {% endfor %}
+          </div>
+
+          <div style="margin-top: 10px; color: rgba(255,255,255,0.70); font-size: 0.92rem; line-height: 1.35;">
+            Если ссылки ведут на 404 — просто добавьте файл в папку <code style="color: rgba(255,255,255,0.88);">static/reports</code> с таким именем.
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% include "partials/support_block.html" %}
+  </div>
+</section>
+{% endblock %}
+

@@ -64,6 +64,27 @@
                    value="{{ homepage.hero_image_url if homepage and homepage.hero_image_url and homepage.hero_image_url.startswith('http') else '' }}">
         </div>
 
+        <div class="form-group">
+            <label for="directions_image_file">Картинка «Направления деятельности»</label>
+            <input type="file" id="directions_image_file" name="directions_image_file" class="form-control"
+                   accept="image/png,image/jpeg,image/jpg,image/gif,image/webp">
+            <small class="form-text">PNG/JPG/GIF/WEBP до 5 МБ. Это картинка, где вы всё расписали (страница /directions).</small>
+
+            {% if homepage and homepage.directions_image_url %}
+            <div class="current-image" style="margin-top: 1rem;">
+                <p class="form-text">Текущая картинка:</p>
+                <img src="{{ homepage.directions_image_url }}" alt="Directions" class="image-preview-thumb" style="max-width: 320px;">
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="directions_image_url">Или URL картинки «Направления деятельности»</label>
+            <input type="url" id="directions_image_url" name="directions_image_url" class="form-control"
+                   placeholder="https://example.com/directions.png"
+                   value="{{ homepage.directions_image_url if homepage and homepage.directions_image_url and homepage.directions_image_url.startswith('http') else '' }}">
+        </div>
+
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-save"></i> Сохранить

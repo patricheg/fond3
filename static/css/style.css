@@ -392,30 +392,30 @@ body.minimal .contact-modal-close:focus {
    Слайдеры: одинаковая высота, корректный кроп разных размеров
    ====================== */
 
+/* Слайдеры: единый размер области изображения (без “прыжков”) */
 .card-image-slider,
 .detail-image-slider,
 .news-image-slider {
     background: rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
 }
 
+/* Фиксируем пропорции, чтобы любой контент выглядел одинаково */
+.card-image-slider { aspect-ratio: 16 / 9; }
+.detail-image-slider { aspect-ratio: 16 / 9; }
+.news-image-slider { aspect-ratio: 16 / 9; }
+
+/* Изображения заполняют область без искажений */
 .card-image-slider .slider-image,
 .detail-image-slider .slider-image,
 .news-image-slider .slider-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-}
-
-.card-image-slider {
-    height: 220px;
-}
-
-.detail-image-slider {
-    height: 400px;
-}
-
-.news-image-slider {
-    height: 250px;
 }
 
 /* Современная прокрутка */
@@ -834,7 +834,8 @@ body.minimal .contact-modal-close:focus {
 
 .card-image {
     width: 100%;
-    height: 220px;
+    aspect-ratio: 16 / 9;
+    height: auto;
     object-fit: cover;
     transition: var(--transition);
 }
@@ -2508,7 +2509,7 @@ body.minimal .contact-modal-close:focus {
 
 .slider-image {
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
     display: none;
 }
@@ -2518,9 +2519,7 @@ body.minimal .contact-modal-close:focus {
     display: block;
 }
 
-.detail-image-slider .slider-image {
-    height: 400px;
-}
+/* Высоту для detail/news слайдеров задаём контейнером через aspect-ratio */
 
 .news-image-slider {
     width: 300px;
@@ -2530,7 +2529,7 @@ body.minimal .contact-modal-close:focus {
 
 .news-image-slider .slider-image {
     width: 100%;
-    height: 250px;
+    height: 100%;
     object-fit: cover;
 }
 

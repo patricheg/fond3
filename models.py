@@ -187,6 +187,7 @@ class HomePage(db.Model):
     left_item_3 = db.Column(db.String(120), default='Помощь спортсменам и клубам')
     left_item_4 = db.Column(db.String(120), default='Помощь спортсменам в реабилитации')
     hero_image_url = db.Column(db.String(300))  # /static/uploads/... или внешний URL
+    directions_image_url = db.Column(db.String(300))  # Картинка для страницы «Направления деятельности»
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
