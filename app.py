@@ -333,6 +333,12 @@ def fund_about():
     return render_template('fund_about.html')
 
 
+@app.route('/future-champion')
+def future_champion():
+    """Страница «Будущий чемпион»"""
+    return render_template('future_champion.html')
+
+
 @app.route('/reports')
 def reports():
     """Раздел «Отчетность»"""

@@ -23,30 +23,46 @@
       position: relative;
       overflow: hidden;
     }
+    .brand-footer {
+      width: min(1320px, 100%);
+      margin: 14px auto 6px;
+      display: flex;
+      justify-content: center;
+      z-index: 1;
+    }
+    .brand-footer img {
+      height: 34px;
+      width: auto;
+      max-width: min(560px, 92vw);
+      object-fit: contain;
+      display: block;
+    }
+    @media (max-width: 420px) {
+      .brand-footer img { height: 28px; }
+    }
     .brandbar {
       position: relative;
       z-index: 2;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 0;
       width: min(1320px, 100%);
       margin: 10px auto 12px;
     }
-    .brandbar img {
+    .brandbar-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .brandbar-left img {
       display: block;
-      height: 34px;
       width: auto;
-      max-width: 48%;
       object-fit: contain;
     }
-    .brandbar .brand-logo { height: 44px; }
+    .brandbar-left .brand-logo { height: 65px; }
+    .brandbar-left .brand-text { height: 54px; max-width: min(560px, 70vw); }
     @media (max-width: 420px) {
       .brandbar { top: 10px; left: 10px; right: 10px; }
-      .brandbar img { height: 30px; }
-      .brandbar .brand-logo { height: 40px; }
+      .brandbar-left .brand-logo { height: 46px; }
+      .brandbar-left .brand-text { height: 32px; max-width: 78vw; }
     }
     /* Мягкий градиент “от картинки в стороны” (виньетка по краям) */
     .wrap::before {
@@ -103,6 +119,16 @@
       border: none;
       background: transparent;
     }
+    .hero-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    .hero-link:focus-visible {
+      outline: 3px solid rgba(255,255,255,0.85);
+      outline-offset: 4px;
+    }
     .hero picture, .hero img {
       display: block;
       width: 100%;
@@ -123,12 +149,6 @@
     /* Мобильная версия: тот же макет, но компактнее */
     @media (max-width: 720px) {
       .wrap { padding-left: 10px; padding-right: 10px; }
-      .brandbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-      }
-      .brandbar img { max-width: min(520px, 100%); }
       .layout { gap: 12px; }
       .menu a { padding: 16px 16px; }
     }
@@ -145,25 +165,32 @@
 <body>
   <div class="wrap">
     <header class="brandbar" aria-label="Шапка">
-      <img class="brand-logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Логотип" />
-      <img src="{{ url_for('static', filename='images/text.webp') }}" alt="Текст" />
+      <a class="brandbar-left" href="{{ url_for('index') }}" aria-label="На главную">
+        <img class="brand-logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Логотип" />
+        <img class="brand-text" src="{{ url_for('static', filename='images/text.webp') }}" alt="Текст" />
+      </a>
     </header>
 
     <div class="layout">
       <nav class="menu" aria-label="Меню">
-        <a href="{{ url_for('about') }}">О фонде</a>
-        <a href="{{ url_for('fundraisers') }}">Актуальные сборы</a>
-        <a href="{{ url_for('directions') }}">Направления деятельности</a>
-        <a href="{{ url_for('fund_about') }}">Местный благотворительный фонд</a>
-        <a href="{{ url_for('reports') }}">Отчетность</a>
+        <a href="{{ url_for('future_champion') }}">Будущий чемпион</a>
+        <a href="{{ url_for('fundraisers', category='loyalty_to_sport') }}">Верность спорту</a>
+        <a href="{{ url_for('fundraisers', category='loyalty_to_sport') }}">Ветераны спорта и тренеры</a>
+        <a href="{{ url_for('fundraisers', category='strength_spirit_home') }}">Спортивная инфраструктура</a>
       </nav>
 
       <div class="hero">
-        <picture>
-          <img src="{{ url_for('static', filename='images/mainpic.webp') }}" alt="Главная картинка" />
-        </picture>
+        <a class="hero-link" href="{{ url_for('fund_about') }}" aria-label="О фонде">
+          <picture>
+            <img src="{{ url_for('static', filename='images/mainpic.webp') }}" alt="О фонде" />
+          </picture>
+        </a>
       </div>
     </div>
+
+    <footer class="brand-footer" aria-label="Подвал">
+      <img src="{{ url_for('static', filename='images/text_footer.webp') }}" alt="Футер" />
+    </footer>
   </div>
 </body>
 </html>

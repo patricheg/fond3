@@ -42,14 +42,11 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body class="minimal">
-    <header class="minimal-topbar">
-        <div class="minimal-topbar-inner">
-            <button class="minimal-back" type="button"
-                    onclick="if (history.length > 1) history.back(); else location.href='{{ url_for('index') }}'">
-                ← Назад
-            </button>
-            <a class="minimal-home" href="{{ url_for('index') }}" aria-label="На главную">
-                <i class="fas fa-home"></i>
+    <header class="brandbar" aria-label="Шапка">
+        <div class="brandbar-inner">
+            <a class="brandbar-left" href="{{ url_for('index') }}" aria-label="На главную">
+                <img class="brandbar-logo-img" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Логотип">
+                <img class="brandbar-text" src="{{ url_for('static', filename='images/text.webp') }}" alt="Текст">
             </a>
         </div>
     </header>
@@ -69,6 +66,10 @@
     <main class="minimal-main">
         {% block content %}{% endblock %}
     </main>
+
+    <footer class="brand-footer" aria-label="Подвал">
+        <img class="brand-footer-img" src="{{ url_for('static', filename='images/text_footer.webp') }}" alt="Футер" />
+    </footer>
 
     {% block structured_data %}{% endblock %}
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

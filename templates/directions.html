@@ -23,6 +23,19 @@
       position: relative;
       overflow: visible;
     }
+    .footer {
+      margin-top: 16px;
+      width: min(1100px, 100%);
+      display: flex;
+      justify-content: center;
+    }
+    .footer img {
+      height: 34px;
+      width: auto;
+      max-width: min(560px, 92vw);
+      object-fit: contain;
+      display: block;
+    }
     .wrap::before {
       content: "";
       position: absolute;
@@ -86,25 +99,25 @@
       left: 12px;
       right: 12px;
       z-index: 4;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      gap: 12px;
       padding: 0;
     }
-    .brandbar img {
+    .brandbar-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .brandbar-left img {
       display: block;
-      height: 34px;
       width: auto;
-      max-width: min(520px, 100%);
       object-fit: contain;
     }
-    .brandbar .brand-logo { height: 44px; }
+    .brandbar-left .brand-logo { height: 52px; }
+    .brandbar-left .brand-text { height: 38px; max-width: min(560px, 70vw); }
     @media (max-width: 420px) {
       .brandbar { top: 10px; left: 10px; right: 10px; }
-      .brandbar img { height: 30px; }
-      .brandbar .brand-logo { height: 40px; }
+      .brandbar-left .brand-logo { height: 46px; }
+      .brandbar-left .brand-text { height: 32px; max-width: 78vw; }
     }
 
     .stage {
@@ -133,9 +146,10 @@
 <body>
   <div class="wrap">
     <header class="brandbar" aria-label="Шапка">
-      <a class="home-btn" href="{{ url_for('index') }}" aria-label="На главную">← Домой</a>
-      <img class="brand-logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Логотип" />
-      <img src="{{ url_for('static', filename='images/text.webp') }}" alt="Текст" />
+      <a class="brandbar-left" href="{{ url_for('index') }}" aria-label="На главную">
+        <img class="brand-logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Логотип" />
+        <img class="brand-text" src="{{ url_for('static', filename='images/text.webp') }}" alt="Текст" />
+      </a>
     </header>
 
     <div class="stage">
@@ -152,6 +166,10 @@
         </div>
       {% endif %}
     </div>
+
+    <footer class="footer" aria-label="Подвал">
+      <img src="{{ url_for('static', filename='images/text_footer.webp') }}" alt="Футер" />
+    </footer>
   </div>
 </body>
 </html>

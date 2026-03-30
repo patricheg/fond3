@@ -73,58 +73,8 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>О нас</h3>
-                    <p>Мы помогаем спортсменам достигать своих целей и организуем турниры для всех.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Контакты</h3>
-                    {% if contact_info %}
-                        {% if contact_info.email %}
-                        <p><i class="fas fa-envelope"></i> <a href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a></p>
-                        {% endif %}
-                        {% if contact_info.phone %}
-                        <p><i class="fas fa-phone"></i> <a href="tel:{{ contact_info.phone }}">{{ contact_info.phone }}</a></p>
-                        {% endif %}
-                    {% else %}
-                        <p><i class="fas fa-envelope"></i> <a href="mailto:info@sportfund.by">info@sportfund.by</a></p>
-                        <p><i class="fas fa-phone"></i> +375 (XX) XXX-XX-XX</p>
-                    {% endif %}
-                </div>
-                <div class="footer-section">
-                    <h3>Социальные сети</h3>
-                    <div class="social-links">
-                        {% if contact_info %}
-                            {% if contact_info.vk %}
-                            <a href="{{ contact_info.vk }}" target="_blank" rel="noopener" aria-label="VKontakte"><i class="fab fa-vk"></i></a>
-                            {% endif %}
-                            {% if contact_info.telegram %}
-                            <a href="{{ contact_info.telegram if contact_info.telegram.startswith('http') else 'https://t.me/' + contact_info.telegram }}" target="_blank" rel="noopener" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-                            {% endif %}
-                            {% if contact_info.instagram %}
-                            <a href="{{ contact_info.instagram }}" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                            {% endif %}
-                            {% if contact_info.viber %}
-                            <a href="viber://chat?number={{ contact_info.viber }}" aria-label="Viber"><i class="fab fa-viber"></i></a>
-                            {% endif %}
-                            {% if contact_info.whatsapp %}
-                            <a href="https://wa.me/{{ contact_info.whatsapp }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                            {% endif %}
-                        {% else %}
-                            <a href="#" aria-label="VKontakte"><i class="fab fa-vk"></i></a>
-                            <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Благотворительный местный фонд помощи спортсменам. Все права защищены.</p>
-            </div>
-        </div>
+    <footer class="brand-footer" aria-label="Подвал">
+        <img class="brand-footer-img" src="{{ url_for('static', filename='images/text_footer.webp') }}" alt="Футер" />
     </footer>
 
     <!-- Schema.org Structured Data for Organization -->
