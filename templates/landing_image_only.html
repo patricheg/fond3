@@ -12,15 +12,41 @@
         linear-gradient(180deg, #0a5aa5 0%, #083a6b 60%, #061f3f 100%);
     }
     .wrap {
-      height: 100%;
+      min-height: 100%;
       width: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 16px;
+      justify-content: flex-start;
+      padding: 10px; /* компактнее отступы */
       box-sizing: border-box;
       position: relative;
       overflow: hidden;
+    }
+    .brandbar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0;
+      width: min(1320px, 100%);
+      margin: 10px auto 12px;
+    }
+    .brandbar img {
+      display: block;
+      height: 34px;
+      width: auto;
+      max-width: 48%;
+      object-fit: contain;
+    }
+    .brandbar .brand-logo { height: 44px; }
+    @media (max-width: 420px) {
+      .brandbar { top: 10px; left: 10px; right: 10px; }
+      .brandbar img { height: 30px; }
+      .brandbar .brand-logo { height: 40px; }
     }
     /* Мягкий градиент “от картинки в стороны” (виньетка по краям) */
     .wrap::before {
@@ -38,61 +64,74 @@
           rgba(6, 31, 63, 0.18) 88%,
           rgba(6, 31, 63, 0.55) 100%);
     }
-    .stage {
-      position: relative;
-      display: inline-block;
-      max-width: 100%;
-      max-height: 100%;
+    .layout {
+      width: min(1320px, 100%);
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 16px;
       z-index: 1;
+      margin: 0 auto;
     }
-    picture, img {
-      width: auto;
-      height: auto;
-      max-width: 100%;
-      /* Заполняем экран по высоте, но без кропа */
-      max-height: calc(100vh - 32px);
-      object-fit: contain;
+    .menu {
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .menu a {
       display: block;
-    }
-    @media (min-width: 1100px) { .wrap { padding: 24px; } }
-    @media (max-width: 420px) { .wrap { padding: 10px; } }
-    /* На мобильных: вписываем картинку в экран (без обрезки) */
-    @media (max-width: 720px) {
-      .wrap { padding: 0; }
-      .stage { width: 100vw; height: 100vh; max-width: none; max-height: none; }
-      picture, img {
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        max-height: none;
-        object-fit: contain;
-        object-position: center;
-      }
-    }
-    /* Невидимые кликабельные зоны поверх КАРТИНКИ */
-    .hotspot-layer {
-      position: absolute;
-      inset: 0;
-    }
-
-    .hotspot {
-      position: absolute;
-      display: block;
+      padding: 14px 16px;
+      border-radius: 16px;
       text-decoration: none;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      color: rgba(255,255,255,0.94);
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform 140ms ease, background 140ms ease;
+    }
+    .menu a:hover { transform: translateY(-1px); background: rgba(255,255,255,0.14); }
+    .menu a:focus-visible { outline: 3px solid rgba(255,255,255,0.85); outline-offset: 4px; }
+
+    .hero {
+      align-self: center;
+      border-radius: 0;
+      overflow: visible;
+      border: none;
       background: transparent;
-      border-radius: 14px;
     }
-
-    .hotspot:focus-visible {
-      outline: 3px solid rgba(255,255,255,0.85);
-      outline-offset: 4px;
+    .hero picture, .hero img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: calc(100vh - 120px);
+      object-fit: contain;
     }
-
-    /* Координаты в процентах под финальный макет (3 пункта слева) */
-    .hotspot-1 { left: 6.5%; top: 32.5%; width: 26.0%; height: 9.5%; }   /* О фонде */
-    .hotspot-2 { left: 6.5%; top: 48.5%; width: 30.0%; height: 10.5%; }  /* Актуальные сборы */
-    .hotspot-3 { left: 6.5%; top: 66.5%; width: 34.0%; height: 10.5%; }  /* Направления деятельности */
-    .hotspot-4 { left: 56.0%; top: 43.0%; width: 34.0%; height: 24.0%; } /* Местный благотворительный фонд... */
+    @media (min-width: 1100px) { .wrap { padding: 10px; } }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; gap: 14px; }
+      .menu { align-self: stretch; }
+      .hero picture, .hero img { max-height: none; }
+    }
+    @media (max-width: 420px) {
+      .wrap { padding: 8px; }
+      .menu a { padding: 14px 16px; border-radius: 16px; }
+    }
+    /* Мобильная версия: тот же макет, но компактнее */
+    @media (max-width: 720px) {
+      .wrap { padding-left: 10px; padding-right: 10px; }
+      .brandbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .brandbar img { max-width: min(520px, 100%); }
+      .layout { gap: 12px; }
+      .menu a { padding: 16px 16px; }
+    }
     .placeholder {
       color: #fff;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -101,39 +140,29 @@
       max-width: 720px;
       line-height: 1.4;
     }
-    /* Проверка расположения зон: откройте /?debug=1 */
-    body.debug .hotspot {
-      background: rgba(255, 255, 255, 0.18);
-      outline: 2px solid rgba(255, 255, 255, 0.75);
-    }
-    body.debug .hotspot-1 { background: rgba(0, 255, 255, 0.18); }
-    body.debug .hotspot-2 { background: rgba(255, 255, 0, 0.18); }
-    body.debug .hotspot-3 { background: rgba(255, 0, 255, 0.18); }
-    body.debug .hotspot-4 { background: rgba(0, 255, 0, 0.18); }
   </style>
 </head>
-<body class="{% if request.args.get('debug') %}debug{% endif %}">
+<body>
   <div class="wrap">
-    <div class="stage">
-      {% if homepage and homepage.hero_image_url %}
-        <picture>
-          {% if homepage.hero_image_url_mobile %}
-            <source media="(max-width: 720px)" srcset="{{ homepage.hero_image_url_mobile }}">
-          {% endif %}
-          <img src="{{ homepage.hero_image_url }}" alt="Заглавная картинка" />
-        </picture>
+    <header class="brandbar" aria-label="Шапка">
+      <img class="brand-logo" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Логотип" />
+      <img src="{{ url_for('static', filename='images/text.webp') }}" alt="Текст" />
+    </header>
 
-        <div class="hotspot-layer">
-          <a class="hotspot hotspot-1" href="{{ url_for('about') }}" aria-label="О фонде"></a>
-          <a class="hotspot hotspot-2" href="{{ url_for('fundraisers') }}" aria-label="Актуальные сборы"></a>
-          <a class="hotspot hotspot-3" href="{{ url_for('directions') }}" aria-label="Направления деятельности"></a>
-          <a class="hotspot hotspot-4" href="{{ url_for('fund_about') }}" aria-label="Местный благотворительный фонд помощи спортсменам"></a>
-        </div>
-      {% else %}
-        <div class="placeholder">
-          Загрузите заглавную картинку в админке: «Главная» → «Баннер».
-        </div>
-      {% endif %}
+    <div class="layout">
+      <nav class="menu" aria-label="Меню">
+        <a href="{{ url_for('about') }}">О фонде</a>
+        <a href="{{ url_for('fundraisers') }}">Актуальные сборы</a>
+        <a href="{{ url_for('directions') }}">Направления деятельности</a>
+        <a href="{{ url_for('fund_about') }}">Местный благотворительный фонд</a>
+        <a href="{{ url_for('reports') }}">Отчетность</a>
+      </nav>
+
+      <div class="hero">
+        <picture>
+          <img src="{{ url_for('static', filename='images/mainpic.webp') }}" alt="Главная картинка" />
+        </picture>
+      </div>
     </div>
   </div>
 </body>
