@@ -336,7 +336,74 @@ def fund_about():
 @app.route('/future-champion')
 def future_champion():
     """Страница «Будущий чемпион»"""
-    return render_template('future_champion.html')
+    page = {
+        "title": "Будущий чемпион",
+        "text": (
+            "Поддержка молодых и начинающих спортсменов.\n"
+            "Мы помогаем талантливым детям и подросткам\n"
+            "сделать первые шаги в спорте.\n"
+            "Обеспечиваем экипировкой,\n"
+            "оплачиваем участие в соревнованиях и сборах.\n"
+            "Наша цель — дать каждому ребенку шанс\n"
+            "раскрыть свой потенциал."
+        ),
+        "image": "images/future_champion.webp",
+    }
+    return render_template('program_page.html', page=page)
+
+
+@app.route('/loyalty-to-sport')
+def loyalty_to_sport_page():
+    """Страница «Верность спорту»"""
+    page = {
+        "title": "Верность спорту",
+        "text": (
+            "Поддержка действующих спортсменов.\n"
+            "Мы оказываем помощь спортсменам, которые\n"
+            "уже показывают результаты, но нуждаются\n"
+            "в дополнительной поддержке.\n"
+            "Финансируем участие в соревнованиях,\n"
+            "восстановление, подготовку и развитие."
+        ),
+        "image": "images/vern.webp",
+    }
+    return render_template('program_page.html', page=page)
+
+
+@app.route('/veterans-and-coaches')
+def veterans_and_coaches_page():
+    """Страница «Ветераны спорта и тренеры»"""
+    page = {
+        "title": "Ветераны спорта и тренеры",
+        "text": (
+            "Поддержка людей, посвятивших жизнь спорту.\n"
+            "Мы помогаем тренерам и ветеранам,\n"
+            "которые внесли значительный вклад\n"
+            "в развитие спорта.\n"
+            "Оказываем материальную помощь,\n"
+            "поддержку и внимание."
+        ),
+        "image": "images/veterans.webp",
+    }
+    return render_template('program_page.html', page=page)
+
+
+@app.route('/sport-infrastructure')
+def sport_infrastructure_page():
+    """Страница «Спортивная инфраструктура»"""
+    page = {
+        "title": "Спортивная инфраструктура",
+        "text": (
+            "Развитие спортивной среды.\n"
+            "Мы участвуем в улучшении условий\n"
+            "для тренировок: закупаем инвентарь,\n"
+            "помогаем залам и секциям.\n"
+            "Создаем комфортные условия\n"
+            "для занятий спортом."
+        ),
+        "image": "images/infra.webp",
+    }
+    return render_template('program_page.html', page=page)
 
 
 @app.route('/reports')
