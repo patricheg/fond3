@@ -8,50 +8,13 @@
 {% block content %}
 <section class="section donate-qr-page">
     <div class="container">
-        <h1 class="section-title">Я хочу помочь</h1>
-
-        <div class="donate-qr-block">
-            <div class="donate-qr-card">
-                <h2>Мы работаем с сервисом E-POS</h2>
-                <p class="donate-qr-subtitle">
-                    В дереве ЕРИП выберите услугу<br>
-                    «E-POS - оплата товаров и услуг»<br>
-                    и введите лицевой счет:
-                </p>
-
-                <p style="text-align:center; font-weight:900; font-size:1.6rem; margin: 1rem 0 1.5rem;">
-                    38073-1-1
-                </p>
-
-                {% if contact_info and (contact_info.phone or contact_info.email) %}
-                <div class="donate-qr-help" style="margin-top: 1.5rem;">
-                    <h3>Контакты</h3>
-                    {% if contact_info.phone %}
-                    <p style="margin: 0.5rem 0;">
-                        <strong>Телефон:</strong>
-                        <a href="tel:{{ contact_info.phone }}">{{ contact_info.phone }}</a>
-                    </p>
-                    {% endif %}
-                    {% if contact_info.email %}
-                    <p style="margin: 0.5rem 0;">
-                        <strong>Email:</strong>
-                        <a href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a>
-                    </p>
-                    {% endif %}
-                </div>
-                {% endif %}
-            </div>
-
-            <div class="donate-qr-info">
-                <h3>Важная информация</h3>
-                <p>
-                    Платёж осуществляется через защищённое соединение банка. Реквизиты карты и ваши персональные
-                    данные обрабатываются только платёжным провайдером и не передаются фонду.
-                </p>
-                <p>
-                    Пожалуйста, сохраняйте чек или выписку по операции — это поможет при возникновении спорных ситуаций.
-                </p>
-            </div>
+        <h1 class="section-title">Оплата</h1>
+        <div style="max-width: 1100px; margin: 0 auto;">
+            <img
+                src="{{ url_for('static', filename='images/pay.webp') }}"
+                alt="Информация для оплаты"
+                style="display:block; width:100%; height:auto; object-fit:contain;"
+            />
         </div>
     </div>
 </section>

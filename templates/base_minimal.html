@@ -68,8 +68,51 @@
         <img class="brand-footer-img" src="{{ url_for('static', filename='images/text_footer.webp') }}" alt="Футер" />
     </footer>
 
+    <div id="donateModal" class="donate-modal-overlay" aria-hidden="true">
+        <div class="donate-modal-content" role="dialog" aria-modal="true" aria-label="Оплата">
+            <button class="donate-modal-close" type="button" aria-label="Закрыть">×</button>
+            <img src="{{ url_for('static', filename='images/pay.webp') }}" alt="Информация для оплаты">
+        </div>
+    </div>
+
     {% block structured_data %}{% endblock %}
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        (function () {
+            const modal = document.getElementById('donateModal');
+            if (!modal) return;
+            const closeBtn = modal.querySelector('.donate-modal-close');
+
+            function openModal() {
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeModal() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
+
+            document.addEventListener('click', function (e) {
+                const link = e.target.closest('a[href]');
+                if (!link) return;
+                const href = link.getAttribute('href') || '';
+                if (href === "{{ url_for('donate') }}" || href.endsWith('/donate')) {
+                    e.preventDefault();
+                    openModal();
+                }
+            });
+
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeModal();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeModal();
+            });
+        })();
+    </script>
 </body>
 </html>
 
