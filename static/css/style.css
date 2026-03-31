@@ -139,10 +139,10 @@ body.minimal .brand-footer-img {
     display: flex;
 }
 .donate-modal-content {
-    width: 402px;
-    height: 1220px;
+    width: min(70vw, 400px);
+    height: 80vh;
     max-height: calc(100vh - 32px);
-    background: #ffffff;
+    background: #ecdede;
     border-radius: 12px;
     overflow: hidden;
     position: relative;
