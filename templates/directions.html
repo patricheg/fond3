@@ -36,6 +36,35 @@
       object-fit: contain;
       display: block;
     }
+    .legal-footer {
+      margin-top: 4px;
+      width: min(1100px, 100%);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+    }
+    .legal-footer a {
+      color: rgba(255,255,255,0.86);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    .legal-footer a:hover { color: #fff; text-decoration: underline; }
+    .donate-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+      display: none; align-items: center; justify-content: center; z-index: 9999; padding: 16px;
+    }
+    .donate-modal-overlay.is-open { display: flex; }
+    .donate-modal-content {
+      width: min(70vw, 400px); height: 80vh; max-height: calc(100vh - 32px);
+      background: #ecdede; border-radius: 12px; overflow: hidden; position: relative;
+    }
+    .donate-modal-content img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .donate-modal-close {
+      position: absolute; top: 6px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%;
+      background: rgba(0,0,0,0.45); color: #fff; cursor: pointer; font-size: 18px; line-height: 1;
+    }
     .wrap::before {
       content: "";
       position: absolute;
@@ -170,7 +199,36 @@
     <footer class="footer" aria-label="Подвал">
       <img src="{{ url_for('static', filename='images/text_footer.webp') }}" alt="Футер" />
     </footer>
+    <div class="legal-footer" aria-label="Юридическая информация">
+      <a href="{{ url_for('legal_file', doc_type='offer') }}">Публичная оферта</a>
+      <a href="{{ url_for('legal_file', doc_type='policy') }}">Политика защиты данных</a>
+      <a href="{{ url_for('donate') }}">Как платить</a>
+    </div>
   </div>
+  <div id="donateModal" class="donate-modal-overlay" aria-hidden="true">
+    <div class="donate-modal-content" role="dialog" aria-modal="true" aria-label="Оплата">
+      <button class="donate-modal-close" type="button" aria-label="Закрыть">×</button>
+      <img src="{{ url_for('static', filename='images/pay.webp') }}" alt="Информация для оплаты">
+    </div>
+  </div>
+  <script>
+    (function () {
+      const modal = document.getElementById('donateModal');
+      if (!modal) return;
+      const closeBtn = modal.querySelector('.donate-modal-close');
+      function openModal() { modal.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+      function closeModal() { modal.classList.remove('is-open'); document.body.style.overflow = ''; }
+      document.addEventListener('click', function (e) {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href') || '';
+        if (href === "{{ url_for('donate') }}" || href.endsWith('/donate')) { e.preventDefault(); openModal(); }
+      });
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+    })();
+  </script>
 </body>
 </html>
 

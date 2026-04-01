@@ -426,6 +426,22 @@ def reports_download(filename):
     return send_from_directory("static/reports", filename, as_attachment=True)
 
 
+@app.route('/legal-file/<doc_type>')
+def legal_file(doc_type):
+    """Скачивание юридических документов из корня проекта."""
+    files_map = {
+        "offer": "Публична оферта.docx",
+        "policy": "Политки о персональных данных.docx",
+    }
+    filename = files_map.get(doc_type)
+    if not filename:
+        abort(404)
+    file_path = os.path.join(app.root_path, filename)
+    if not os.path.exists(file_path):
+        abort(404)
+    return send_from_directory(app.root_path, filename, as_attachment=True)
+
+
 @app.route('/our-people')
 def our_people():
     """Страница Волонтеры"""

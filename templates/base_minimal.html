@@ -67,6 +67,11 @@
     <footer class="brand-footer" aria-label="Подвал">
         <img class="brand-footer-img" src="{{ url_for('static', filename='images/text_footer.webp') }}" alt="Футер" />
     </footer>
+    <div class="legal-footer" aria-label="Юридическая информация">
+        <a href="{{ url_for('legal_file', doc_type='offer') }}">Публичная оферта</a>
+        <a href="{{ url_for('legal_file', doc_type='policy') }}">Политика защиты данных</a>
+        <a href="{{ url_for('donate') }}">Как платить</a>
+    </div>
 
     <div id="donateModal" class="donate-modal-overlay" aria-hidden="true">
         <div class="donate-modal-content" role="dialog" aria-modal="true" aria-label="Оплата">
