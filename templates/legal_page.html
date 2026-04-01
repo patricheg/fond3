@@ -1,0 +1,18 @@
+{% extends "base_minimal.html" %}
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+<section class="container minimal-container">
+  <div class="glass-section">
+    <h1 class="section-title" style="margin-bottom: 1rem;">{{ page.title }}</h1>
+    <div class="glass-card" style="display: grid; gap: 12px; line-height: 1.55;">
+      {% for section in page.sections %}
+        <div>
+          <div style="font-weight: 800; margin-bottom: 4px;">{{ section.heading }}</div>
+          <div style="color: rgba(255,255,255,0.88); white-space: pre-line;">{{ section.text }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
