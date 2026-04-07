@@ -57,12 +57,15 @@
     }
     .legal-footer a:hover { color: #fff; text-decoration: underline; }
     .legal-footer-brand-img {
-      height: 52px;
+      height: clamp(28px, 4.2vw, 52px);
       width: auto;
       object-fit: contain;
       display: block;
       margin-left: 8%;
       margin-right: 14px;
+    }
+    @media (max-width: 720px) {
+      .legal-footer-brand-img { margin-left: 0; margin-right: 12px; }
     }
     .legal-footer-links {
       margin-left: auto;
@@ -242,7 +245,7 @@
       <div class="legal-footer-links">
         <a href="{{ url_for('legal_page', doc_type='offer') }}">Публичная оферта</a>
         <a href="{{ url_for('legal_page', doc_type='policy') }}">Политика защиты данных</a>
-        <a href="{{ url_for('donate') }}">Как платить</a>
+        <a href="{{ url_for('donate') }}">Поддержать</a>
       </div>
     </div>
   </div>
