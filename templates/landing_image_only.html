@@ -27,7 +27,7 @@
       width: min(1320px, 100%);
       margin: 14px auto 6px;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       z-index: 1;
     }
     .brand-footer img {
@@ -56,6 +56,22 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
     .legal-footer a:hover { color: #fff; text-decoration: underline; }
+    .legal-footer-brand-img {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      margin-left: 8%;
+      margin-right: 14px;
+    }
+    .legal-footer-links {
+      margin-left: auto;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      gap: 10px 16px;
+      flex-wrap: wrap;
+    }
     .donate-modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.55);
       display: none; align-items: center; justify-content: center; z-index: 9999; padding: 16px;
@@ -171,6 +187,9 @@
       .layout { grid-template-columns: 1fr; gap: 14px; }
       .menu { align-self: stretch; }
       .hero picture, .hero img { max-height: none; }
+      /* На телефоне/планшете: сначала "Местный Благотворительный фонд" (hero), затем меню */
+      .hero { order: 1; }
+      .menu { order: 2; }
     }
     @media (max-width: 420px) {
       .wrap { padding: 8px; }
@@ -218,13 +237,13 @@
       </div>
     </div>
 
-    <footer class="brand-footer" aria-label="Подвал">
-      <img src="{{ url_for('static', filename='images/text_footer.webp') }}" alt="Футер" />
-    </footer>
     <div class="legal-footer" aria-label="Юридическая информация">
-      <a href="{{ url_for('legal_page', doc_type='offer') }}">Публичная оферта</a>
-      <a href="{{ url_for('legal_page', doc_type='policy') }}">Политика защиты данных</a>
-      <a href="{{ url_for('donate') }}">Как платить</a>
+      <img class="legal-footer-brand-img" src="{{ url_for('static', filename='images/text_footer.webp') }}" alt="Футер" />
+      <div class="legal-footer-links">
+        <a href="{{ url_for('legal_page', doc_type='offer') }}">Публичная оферта</a>
+        <a href="{{ url_for('legal_page', doc_type='policy') }}">Политика защиты данных</a>
+        <a href="{{ url_for('donate') }}">Как платить</a>
+      </div>
     </div>
   </div>
   <div id="donateModal" class="donate-modal-overlay" aria-hidden="true">
