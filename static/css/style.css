@@ -131,6 +131,12 @@ body.minimal .legal-footer {
     gap: 10px 16px;
     padding: 2px 12px 16px;
 }
+
+@media (max-width: 720px) {
+    body.minimal .legal-footer {
+        margin-top: 14px;
+    }
+}
 body.minimal .legal-footer-brand-img {
     height: clamp(28px, 4.2vw, 52px);
     width: auto;
