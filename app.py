@@ -173,29 +173,8 @@ def index():
 
 @app.route('/fundraisers')
 def fundraisers():
-    """Страница всех сборов с фильтрацией по категориям"""
-    category = request.args.get('category', '')
-    
-    query = Fundraiser.query.filter_by(is_active=True)
-    
-    # Фильтрация по категории
-    if category:
-        query = query.filter_by(category=category)
-    
-    all_fundraisers = query.order_by(Fundraiser.created_at.desc()).all()
-    
-    # Категории для фильтра
-    categories = {
-        'future_champion': 'Будущий чемпион — гранты для детей и юношей',
-        'second_chance': 'Второй шанс — оплата операций и восстановления',
-        'loyalty_to_sport': 'Верность спорту — поддержка ветеранов и тренеров',
-        'strength_spirit_home': 'Дом силы и духа — поддержка спортзалов и клубов'
-    }
-    
-    return render_template('fundraisers.html', 
-                         fundraisers=all_fundraisers, 
-                         categories=categories,
-                         selected_category=category)
+    """Редирект на главную"""
+    return redirect(url_for('index'))
 
 
 @app.route('/directions')
