@@ -389,6 +389,17 @@ a {
   margin-top: 18px;
 }
 
+/* Фото целиком, без обрезки */
+.direction--full-photo .direction__photo {
+  background: var(--blue-deep);
+  display: flex;
+  align-items: center;
+}
+
+.direction--full-photo .direction__photo img {
+  object-fit: contain;
+}
+
 /* ---------- Кнопки ---------- */
 
 .btn {
